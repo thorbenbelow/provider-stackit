@@ -34,14 +34,14 @@ import (
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	apisCluster "github.com/crossplane/upjet-provider-template/apis/cluster"
-	apisNamespaced "github.com/crossplane/upjet-provider-template/apis/namespaced"
-	"github.com/crossplane/upjet-provider-template/config"
-	"github.com/crossplane/upjet-provider-template/internal/clients"
-	controllerCluster "github.com/crossplane/upjet-provider-template/internal/controller/cluster"
-	controllerNamespaced "github.com/crossplane/upjet-provider-template/internal/controller/namespaced"
-	"github.com/crossplane/upjet-provider-template/internal/features"
-	"github.com/crossplane/upjet-provider-template/internal/version"
+	apisCluster "github.com/thorbenbelow/provider-stackit/apis/cluster"
+	apisNamespaced "github.com/thorbenbelow/provider-stackit/apis/namespaced"
+	"github.com/thorbenbelow/provider-stackit/config"
+	"github.com/thorbenbelow/provider-stackit/internal/clients"
+	controllerCluster "github.com/thorbenbelow/provider-stackit/internal/controller/cluster"
+	controllerNamespaced "github.com/thorbenbelow/provider-stackit/internal/controller/namespaced"
+	"github.com/thorbenbelow/provider-stackit/internal/features"
+	"github.com/thorbenbelow/provider-stackit/internal/version"
 )
 
 const (

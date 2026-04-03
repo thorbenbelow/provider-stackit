@@ -6,13 +6,13 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
-	nullCluster "github.com/crossplane/upjet-provider-template/config/cluster/null"
-	nullNamespaced "github.com/crossplane/upjet-provider-template/config/namespaced/null"
+	nullCluster "github.com/thorbenbelow/provider-stackit/config/cluster/null"
+	nullNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/null"
 )
 
 const (
 	resourcePrefix = "template"
-	modulePath     = "github.com/crossplane/upjet-provider-template"
+	modulePath     = "github.com/thorbenbelow/provider-stackit"
 )
 
 //go:embed schema.json
