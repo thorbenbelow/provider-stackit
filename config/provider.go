@@ -5,9 +5,8 @@ import (
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
-
-	nullCluster "github.com/thorbenbelow/provider-stackit/config/cluster/null"
-	nullNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/null"
+	resourcemanagerprojectCluster "github.com/thorbenbelow/provider-stackit/config/cluster/resourcemanager_project"
+	resourcemanagerprojectNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/resourcemanager_project"
 )
 
 const (
@@ -33,7 +32,8 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		nullCluster.Configure,
+
+		resourcemanagerprojectCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -57,7 +57,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		nullNamespaced.Configure,
+		resourcemanagerprojectNamespaced.Configure,
 	} {
 		configure(pc)
 	}

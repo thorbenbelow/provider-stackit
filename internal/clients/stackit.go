@@ -22,6 +22,9 @@ const (
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal stackit credentials as JSON"
+
+	keyServiceAccountKey = "service_account_key"
+	keyDefaultRegion     = "default_region"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -51,10 +54,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		ps.Configuration = map[string]any{
+			keyServiceAccountKey: creds[keyServiceAccountKey],
+			keyDefaultRegion:     creds[keyDefaultRegion],
+		}
 		return ps, nil
 	}
 }
