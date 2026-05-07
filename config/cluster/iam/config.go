@@ -9,6 +9,7 @@ func Configure(p *config.Provider) {
 		r.Kind = "ServiceAccount"
 		r.References["project_id"] = config.Reference{
 			TerraformName: "stackit_resourcemanager_project",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath(\"project_id\", true)",
 		}
 	})
 	p.AddResourceConfigurator("stackit_authorization_project_role_assignment", func(r *config.Resource) {
@@ -16,6 +17,7 @@ func Configure(p *config.Provider) {
 		r.Kind = "ProjectRoleAssignment"
 		r.References["resource_id"] = config.Reference{
 			TerraformName: "stackit_resourcemanager_project",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath(\"project_id\", true)",
 		}
 	})
 }

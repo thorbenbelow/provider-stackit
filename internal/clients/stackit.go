@@ -23,8 +23,31 @@ const (
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal stackit credentials as JSON"
 
-	keyServiceAccountKey = "service_account_key"
-	keyDefaultRegion     = "default_region"
+	keyServiceAccountKey             = "service_account_key"
+	keyServiceAccountToken           = "service_account_token"
+	keyDefaultRegion                 = "default_region"
+	keyEnableBetaResources           = "enable_beta_resources"
+	keyExperiments                   = "experiments"
+	keyAlbCustomEndpoint             = "alb_custom_endpoint"
+	keyAuthorizationCustomEndpoint   = "authorization_custom_endpoint"
+	keyCdnCustomEndpoint             = "cdn_custom_endpoint"
+	keyDnsCustomEndpoint             = "dns_custom_endpoint"
+	keyEdgecloudCustomEndpoint       = "edgecloud_custom_endpoint"
+	keyGitCustomEndpoint             = "git_custom_endpoint"
+	keyIaasCustomEndpoint            = "iaas_custom_endpoint"
+	keyMariadbCustomEndpoint         = "mariadb_custom_endpoint"
+	keyMongodbCustomEndpoint         = "mongodb_custom_endpoint"
+	keyMysqlCustomEndpoint           = "mysql_custom_endpoint"
+	keyObjectStorageCustomEndpoint   = "object_storage_custom_endpoint"
+	keyObservabilityCustomEndpoint   = "observability_custom_endpoint"
+	keyOpensearchCustomEndpoint      = "opensearch_custom_endpoint"
+	keyPostgresqlCustomEndpoint      = "postgresql_custom_endpoint"
+	keyRabbitmqCustomEndpoint        = "rabbitmq_custom_endpoint"
+	keyRedisCustomEndpoint           = "redis_custom_endpoint"
+	keyResourcemanagerCustomEndpoint = "resourcemanager_custom_endpoint"
+	keySecretsmanagerCustomEndpoint  = "secretsmanager_custom_endpoint"
+	keySkeCustomEndpoint             = "ske_custom_endpoint"
+	keySqlserverCustomEndpoint       = "sqlserver_custom_endpoint"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -54,10 +77,82 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		ps.Configuration = map[string]any{
-			keyServiceAccountKey: creds[keyServiceAccountKey],
-			keyDefaultRegion:     creds[keyDefaultRegion],
+		ps.Configuration = map[string]any{}
+		for k, v := range creds {
+			ps.Configuration[k] = v
 		}
+
+		// Override with fields from ProviderConfigSpec if set.
+		if pcSpec.DefaultRegion != nil {
+			ps.Configuration[keyDefaultRegion] = *pcSpec.DefaultRegion
+		}
+		if pcSpec.EnableBetaResources != nil {
+			ps.Configuration[keyEnableBetaResources] = *pcSpec.EnableBetaResources
+		}
+		if len(pcSpec.Experiments) > 0 {
+			ps.Configuration[keyExperiments] = pcSpec.Experiments
+		}
+		if pcSpec.AlbCustomEndpoint != nil {
+			ps.Configuration[keyAlbCustomEndpoint] = *pcSpec.AlbCustomEndpoint
+		}
+		if pcSpec.AuthorizationCustomEndpoint != nil {
+			ps.Configuration[keyAuthorizationCustomEndpoint] = *pcSpec.AuthorizationCustomEndpoint
+		}
+		if pcSpec.CdnCustomEndpoint != nil {
+			ps.Configuration[keyCdnCustomEndpoint] = *pcSpec.CdnCustomEndpoint
+		}
+		if pcSpec.DnsCustomEndpoint != nil {
+			ps.Configuration[keyDnsCustomEndpoint] = *pcSpec.DnsCustomEndpoint
+		}
+		if pcSpec.EdgecloudCustomEndpoint != nil {
+			ps.Configuration[keyEdgecloudCustomEndpoint] = *pcSpec.EdgecloudCustomEndpoint
+		}
+		if pcSpec.GitCustomEndpoint != nil {
+			ps.Configuration[keyGitCustomEndpoint] = *pcSpec.GitCustomEndpoint
+		}
+		if pcSpec.IaasCustomEndpoint != nil {
+			ps.Configuration[keyIaasCustomEndpoint] = *pcSpec.IaasCustomEndpoint
+		}
+		if pcSpec.MariadbCustomEndpoint != nil {
+			ps.Configuration[keyMariadbCustomEndpoint] = *pcSpec.MariadbCustomEndpoint
+		}
+		if pcSpec.MongodbCustomEndpoint != nil {
+			ps.Configuration[keyMongodbCustomEndpoint] = *pcSpec.MongodbCustomEndpoint
+		}
+		if pcSpec.MysqlCustomEndpoint != nil {
+			ps.Configuration[keyMysqlCustomEndpoint] = *pcSpec.MysqlCustomEndpoint
+		}
+		if pcSpec.ObjectStorageCustomEndpoint != nil {
+			ps.Configuration[keyObjectStorageCustomEndpoint] = *pcSpec.ObjectStorageCustomEndpoint
+		}
+		if pcSpec.ObservabilityCustomEndpoint != nil {
+			ps.Configuration[keyObservabilityCustomEndpoint] = *pcSpec.ObservabilityCustomEndpoint
+		}
+		if pcSpec.OpensearchCustomEndpoint != nil {
+			ps.Configuration[keyOpensearchCustomEndpoint] = *pcSpec.OpensearchCustomEndpoint
+		}
+		if pcSpec.PostgresqlCustomEndpoint != nil {
+			ps.Configuration[keyPostgresqlCustomEndpoint] = *pcSpec.PostgresqlCustomEndpoint
+		}
+		if pcSpec.RabbitmqCustomEndpoint != nil {
+			ps.Configuration[keyRabbitmqCustomEndpoint] = *pcSpec.RabbitmqCustomEndpoint
+		}
+		if pcSpec.RedisCustomEndpoint != nil {
+			ps.Configuration[keyRedisCustomEndpoint] = *pcSpec.RedisCustomEndpoint
+		}
+		if pcSpec.ResourcemanagerCustomEndpoint != nil {
+			ps.Configuration[keyResourcemanagerCustomEndpoint] = *pcSpec.ResourcemanagerCustomEndpoint
+		}
+		if pcSpec.SecretsmanagerCustomEndpoint != nil {
+			ps.Configuration[keySecretsmanagerCustomEndpoint] = *pcSpec.SecretsmanagerCustomEndpoint
+		}
+		if pcSpec.SkeCustomEndpoint != nil {
+			ps.Configuration[keySkeCustomEndpoint] = *pcSpec.SkeCustomEndpoint
+		}
+		if pcSpec.SqlserverCustomEndpoint != nil {
+			ps.Configuration[keySqlserverCustomEndpoint] = *pcSpec.SqlserverCustomEndpoint
+		}
+
 		return ps, nil
 	}
 }
