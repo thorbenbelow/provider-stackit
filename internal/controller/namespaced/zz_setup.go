@@ -9,6 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	projectroleassignment "github.com/thorbenbelow/provider-stackit/internal/controller/namespaced/iam/projectroleassignment"
+	serviceaccount "github.com/thorbenbelow/provider-stackit/internal/controller/namespaced/iam/serviceaccount"
 	providerconfig "github.com/thorbenbelow/provider-stackit/internal/controller/namespaced/providerconfig"
 	project "github.com/thorbenbelow/provider-stackit/internal/controller/namespaced/resourcemanager/project"
 )
@@ -17,6 +19,8 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		projectroleassignment.Setup,
+		serviceaccount.Setup,
 		providerconfig.Setup,
 		project.Setup,
 	} {
@@ -31,6 +35,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		projectroleassignment.SetupGated,
+		serviceaccount.SetupGated,
 		providerconfig.SetupGated,
 		project.SetupGated,
 	} {

@@ -6,7 +6,9 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	resourcemanagerprojectCluster "github.com/thorbenbelow/provider-stackit/config/cluster/resourcemanager_project"
+	iamCluster "github.com/thorbenbelow/provider-stackit/config/cluster/iam"
 	resourcemanagerprojectNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/resourcemanager_project"
+	iamNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/iam"
 )
 
 const (
@@ -34,6 +36,7 @@ func GetProvider() *ujconfig.Provider {
 		// add custom config functions
 
 		resourcemanagerprojectCluster.Configure,
+		iamCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -58,6 +61,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		resourcemanagerprojectNamespaced.Configure,
+		iamNamespaced.Configure,
 	} {
 		configure(pc)
 	}
