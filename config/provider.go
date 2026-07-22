@@ -5,6 +5,13 @@ import (
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+
+	resourcemanagerCluster "github.com/thorbenbelow/provider-stackit/config/cluster/resourcemanager"
+	serviceaccountCluster "github.com/thorbenbelow/provider-stackit/config/cluster/serviceaccount"
+	authorizationCluster "github.com/thorbenbelow/provider-stackit/config/cluster/authorization"
+	resourcemanagerNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/resourcemanager"
+	serviceaccountNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/serviceaccount"
+	authorizationNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/authorization"
 )
 
 const (
@@ -30,6 +37,9 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
+		resourcemanagerCluster.Configure,
+		serviceaccountCluster.Configure,
+		authorizationCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -53,6 +63,9 @@ func GetProviderNamespaced() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
+		resourcemanagerNamespaced.Configure,
+		serviceaccountNamespaced.Configure,
+		authorizationNamespaced.Configure,
 	} {
 		configure(pc)
 	}
