@@ -8,9 +8,7 @@ import (
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"stackit_resourcemanager_project":                config.IdentifierFromProvider,
-	"stackit_service_account":                       config.IdentifierFromProvider,
-	"stackit_authorization_project_role_assignment": config.IdentifierFromProvider,
+	"null_resource": idWithStub(),
 }
 
 func idWithStub() config.ExternalName {

@@ -1,8 +1,8 @@
 # ====================================================================================
 # Setup Project
 
-PROJECT_NAME ?= provider-stackit
-PROJECT_REPO ?= github.com/thorbenbelow/$(PROJECT_NAME)
+PROJECT_NAME ?= upjet-provider-template
+PROJECT_REPO ?= github.com/crossplane/$(PROJECT_NAME)
 
 export TERRAFORM_VERSION ?= 1.5.7
 
@@ -10,12 +10,12 @@ export TERRAFORM_VERSION ?= 1.5.7
 # licensed under BSL, which is not permitted.
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
-export TERRAFORM_PROVIDER_SOURCE ?= stackitcloud/stackit
-export TERRAFORM_PROVIDER_REPO ?= https://github.com/stackitcloud/terraform-provider-stackit
-export TERRAFORM_PROVIDER_VERSION ?= 0.94.0
-export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-stackit
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://github.com/stackitcloud/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-stackit_v0.90.0
+export TERRAFORM_PROVIDER_SOURCE ?= hashicorp/null
+export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-null
+export TERRAFORM_PROVIDER_VERSION ?= 3.2.4
+export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-null
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-null_v3.2.4_x5
 export TERRAFORM_DOCS_PATH ?= docs/resources
 
 
@@ -45,7 +45,7 @@ NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
 GO_REQUIRED_VERSION ?= 1.24
-GOLANGCILINT_VERSION ?= 2.7.2
+GOLANGCILINT_VERSION ?= 2.12.1
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
@@ -57,9 +57,9 @@ GO_SUBDIRS += cmd internal apis
 KIND_VERSION = v0.31.0
 UPTEST_VERSION = v2.2.0
 CRDDIFF_VERSION = v0.12.1
-CROSSPLANE_CLI_VERSION = v2.1.3
+CROSSPLANE_CLI_VERSION = v2.2.1
 # for e2e testing
-CROSSPLANE_VERSION = 2.1.3
+CROSSPLANE_VERSION = 2.2.1
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -95,7 +95,7 @@ fallthrough: submodules
 
 # NOTE(hasheddan): we force image building to happen prior to xpkg build so that
 # we ensure image is present in daemon.
-xpkg.build.provider-stackit: do.build.images
+xpkg.build.upjet-provider-template: do.build.images
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.

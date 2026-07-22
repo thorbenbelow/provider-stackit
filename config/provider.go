@@ -5,15 +5,14 @@ import (
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
-	resourcemanagerprojectCluster "github.com/thorbenbelow/provider-stackit/config/cluster/resourcemanager_project"
-	iamCluster "github.com/thorbenbelow/provider-stackit/config/cluster/iam"
-	resourcemanagerprojectNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/resourcemanager_project"
-	iamNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/iam"
+
+	nullCluster "github.com/crossplane/upjet-provider-template/config/cluster/null"
+	nullNamespaced "github.com/crossplane/upjet-provider-template/config/namespaced/null"
 )
 
 const (
-	resourcePrefix = "stackit"
-	modulePath     = "github.com/thorbenbelow/provider-stackit"
+	resourcePrefix = "template"
+	modulePath     = "github.com/crossplane/upjet-provider-template"
 )
 
 //go:embed schema.json
@@ -25,7 +24,7 @@ var providerMetadata string
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("stackit.crossplane.io"),
+		ujconfig.WithRootGroup("template.crossplane.io"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
@@ -34,9 +33,7 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-
-		resourcemanagerprojectCluster.Configure,
-		iamCluster.Configure,
+		nullCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -48,7 +45,7 @@ func GetProvider() *ujconfig.Provider {
 // GetProviderNamespaced returns the namespaced provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("stackit.m.crossplane.io"),
+		ujconfig.WithRootGroup("template.m.crossplane.io"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
@@ -60,8 +57,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		resourcemanagerprojectNamespaced.Configure,
-		iamNamespaced.Configure,
+		nullNamespaced.Configure,
 	} {
 		configure(pc)
 	}

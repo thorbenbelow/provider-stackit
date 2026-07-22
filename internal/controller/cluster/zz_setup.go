@@ -9,20 +9,16 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	projectroleassignment "github.com/thorbenbelow/provider-stackit/internal/controller/cluster/iam/projectroleassignment"
-	serviceaccount "github.com/thorbenbelow/provider-stackit/internal/controller/cluster/iam/serviceaccount"
-	providerconfig "github.com/thorbenbelow/provider-stackit/internal/controller/cluster/providerconfig"
-	project "github.com/thorbenbelow/provider-stackit/internal/controller/cluster/resourcemanager/project"
+	resource "github.com/crossplane/upjet-provider-template/internal/controller/cluster/null/resource"
+	providerconfig "github.com/crossplane/upjet-provider-template/internal/controller/cluster/providerconfig"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		projectroleassignment.Setup,
-		serviceaccount.Setup,
+		resource.Setup,
 		providerconfig.Setup,
-		project.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -35,10 +31,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		projectroleassignment.SetupGated,
-		serviceaccount.SetupGated,
+		resource.SetupGated,
 		providerconfig.SetupGated,
-		project.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

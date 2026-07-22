@@ -7,7 +7,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/pipeline"
 
-	"github.com/thorbenbelow/provider-stackit/config"
+	"github.com/crossplane/upjet-provider-template/config"
 )
 
 func main() {
