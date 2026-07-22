@@ -5,9 +5,6 @@ import (
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
-
-	nullCluster "github.com/thorbenbelow/provider-stackit/config/cluster/null"
-	nullNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/null"
 )
 
 const (
@@ -33,7 +30,6 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		nullCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -57,7 +53,6 @@ func GetProviderNamespaced() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		nullNamespaced.Configure,
 	} {
 		configure(pc)
 	}

@@ -45,16 +45,75 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		if err != nil {
 			return ps, errors.Wrap(err, errExtractCredentials)
 		}
-		creds := map[string]string{}
+		creds := map[string]any{}
 		if err := json.Unmarshal(data, &creds); err != nil {
 			return ps, errors.Wrap(err, errUnmarshalCredentials)
 		}
 
-		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		configKeys := []string{
+			"alb_certificates_custom_endpoint",
+			"alb_custom_endpoint",
+			"alb_waf_custom_endpoint",
+			"authorization_custom_endpoint",
+			"cdn_custom_endpoint",
+			"credentials_path",
+			"default_region",
+			"dns_custom_endpoint",
+			"dremio_custom_endpoint",
+			"edgecloud_custom_endpoint",
+			"enable_beta_resources",
+			"experiments",
+			"git_custom_endpoint",
+			"iaas_custom_endpoint",
+			"intake_custom_endpoint",
+			"kms_custom_endpoint",
+			"loadbalancer_custom_endpoint",
+			"logme_custom_endpoint",
+			"logs_custom_endpoint",
+			"mariadb_custom_endpoint",
+			"modelserving_custom_endpoint",
+			"mongodbflex_custom_endpoint",
+			"objectstorage_custom_endpoint",
+			"observability_custom_endpoint",
+			"oidc_request_token",
+			"oidc_request_url",
+			"opensearch_custom_endpoint",
+			"postgresflex_custom_endpoint",
+			"private_key",
+			"private_key_path",
+			"rabbitmq_custom_endpoint",
+			"redis_custom_endpoint",
+			"region",
+			"resourcemanager_custom_endpoint",
+			"scf_custom_endpoint",
+			"secretsmanager_custom_endpoint",
+			"server_backup_custom_endpoint",
+			"server_update_custom_endpoint",
+			"service_account_custom_endpoint",
+			"service_account_email",
+			"service_account_federated_token",
+			"service_account_federated_token_path",
+			"service_account_key",
+			"service_account_key_path",
+			"service_account_token",
+			"service_enablement_custom_endpoint",
+			"sfs_custom_endpoint",
+			"ske_custom_endpoint",
+			"sqlserverflex_custom_endpoint",
+			"telemetrylink_custom_endpoint",
+			"telemetryrouter_custom_endpoint",
+			"token_custom_endpoint",
+			"use_oidc",
+			"vpn_custom_endpoint",
+		}
+
+		ps.Configuration = make(map[string]any)
+		for _, key := range configKeys {
+			if val, ok := creds[key]; ok {
+				ps.Configuration[key] = val
+			}
+		}
+
 		return ps, nil
 	}
 }
