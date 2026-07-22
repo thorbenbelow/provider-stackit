@@ -1,0 +1,42 @@
+apiVersion: serviceaccount.stackit.m.kubee.dev/v1alpha1
+kind: FederatedIdentityProvider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: serviceaccount/v1alpha1/federatedidentityprovider
+  labels:
+    testing.upbound.io/example-name: provider
+  name: provider
+  namespace: crossplane-system
+spec:
+  forProvider:
+    assertions:
+    - item: aud
+      operator: equals
+      value: sts.accounts.stackit.cloud
+    - item: email
+      operator: equals
+      value: terraform@example.com
+    issuer: https://auth.example.com
+    name: my-provider
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sa
+    serviceAccountEmail: ${stackit_service_account.sa.email}
+
+---
+
+apiVersion: serviceaccount.stackit.m.kubee.dev/v1alpha1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: serviceaccount/v1alpha1/federatedidentityprovider
+  labels:
+    testing.upbound.io/example-name: sa
+  name: sa
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: my-service-account
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

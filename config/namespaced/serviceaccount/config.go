@@ -11,4 +11,21 @@ func Configure(p *config.Provider) {
 			TerraformName: "stackit_resourcemanager_project",
 		}
 	})
+	p.AddResourceConfigurator("stackit_service_account_federated_identity_provider", func(r *config.Resource) {
+		r.ShortGroup = "serviceaccount"
+		r.Kind = "FederatedIdentityProvider"
+		r.References["project_id"] = config.Reference{
+			TerraformName: "stackit_resourcemanager_project",
+		}
+	})
+	p.AddResourceConfigurator("stackit_service_account_key", func(r *config.Resource) {
+		r.ShortGroup = "serviceaccount"
+		r.Kind = "Key"
+		r.References["project_id"] = config.Reference{
+			TerraformName: "stackit_resourcemanager_project",
+		}
+		r.References["service_account_email"] = config.Reference{
+			TerraformName: "stackit_service_account",
+		}
+	})
 }

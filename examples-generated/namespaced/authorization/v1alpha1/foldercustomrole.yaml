@@ -1,0 +1,35 @@
+apiVersion: authorization.stackit.m.kubee.dev/v1alpha1
+kind: FolderCustomRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/foldercustomrole
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: Some description
+    name: my.custom.role
+    permissions:
+    - iam.subject.get
+    resourceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: resourcemanager.stackit.m.kubee.dev/v1alpha1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/foldercustomrole
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example_folder
+    ownerEmail: foo.bar@stackit.cloud
+    parentContainerId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

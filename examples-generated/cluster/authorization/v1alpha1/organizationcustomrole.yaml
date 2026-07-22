@@ -1,0 +1,15 @@
+apiVersion: authorization.stackit.kubee.dev/v1alpha1
+kind: OrganizationCustomRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/organizationcustomrole
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: Some description
+    name: my.custom.role
+    permissions:
+    - iam.subject.get
+    resourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

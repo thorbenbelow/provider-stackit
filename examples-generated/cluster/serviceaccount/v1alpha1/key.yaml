@@ -1,0 +1,36 @@
+apiVersion: serviceaccount.stackit.kubee.dev/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: serviceaccount/v1alpha1/key
+  labels:
+    testing.upbound.io/example-name: sa_key
+  name: sa-key
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    rotateWhenChanged:
+      rotation: ${time_rotating.rotate.id}
+    serviceAccountEmailSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sa
+    ttlDays: 90
+
+---
+
+apiVersion: serviceaccount.stackit.kubee.dev/v1alpha1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: serviceaccount/v1alpha1/key
+  labels:
+    testing.upbound.io/example-name: sa
+  name: sa
+spec:
+  forProvider:
+    name: sa01
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

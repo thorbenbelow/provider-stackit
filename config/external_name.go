@@ -12,6 +12,18 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 
 	"stackit_resourcemanager_project": config.IdentifierFromProvider,
 	"stackit_resourcemanager_folder":  config.IdentifierFromProvider,
+
+	"stackit_authorization_folder_custom_role":              config.IdentifierFromProvider,
+	"stackit_authorization_folder_role_assignment":          config.IdentifierFromProvider,
+	"stackit_authorization_organization_custom_role":        config.IdentifierFromProvider,
+	"stackit_authorization_organization_role_assignment":    config.IdentifierFromProvider,
+	"stackit_authorization_project_custom_role":             config.IdentifierFromProvider,
+	"stackit_authorization_project_role_assignment":         config.IdentifierFromProvider,
+	"stackit_authorization_service_account_role_assignment": config.IdentifierFromProvider,
+
+	"stackit_service_account":                             config.IdentifierFromProvider,
+	"stackit_service_account_federated_identity_provider": config.IdentifierFromProvider,
+	"stackit_service_account_key":                         config.IdentifierFromProvider,
 }
 
 func idWithStub() config.ExternalName {

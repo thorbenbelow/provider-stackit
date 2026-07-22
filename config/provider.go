@@ -6,12 +6,12 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
+	authorizationCluster "github.com/thorbenbelow/provider-stackit/config/cluster/authorization"
 	resourcemanagerCluster "github.com/thorbenbelow/provider-stackit/config/cluster/resourcemanager"
 	serviceaccountCluster "github.com/thorbenbelow/provider-stackit/config/cluster/serviceaccount"
-	authorizationCluster "github.com/thorbenbelow/provider-stackit/config/cluster/authorization"
+	authorizationNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/authorization"
 	resourcemanagerNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/resourcemanager"
 	serviceaccountNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/serviceaccount"
-	authorizationNamespaced "github.com/thorbenbelow/provider-stackit/config/namespaced/authorization"
 )
 
 const (
