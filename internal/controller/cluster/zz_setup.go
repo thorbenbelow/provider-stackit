@@ -10,6 +10,8 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	providerconfig "github.com/thorbenbelow/provider-stackit/internal/controller/cluster/providerconfig"
+	folder "github.com/thorbenbelow/provider-stackit/internal/controller/cluster/resourcemanager/folder"
+	project "github.com/thorbenbelow/provider-stackit/internal/controller/cluster/resourcemanager/project"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -17,6 +19,8 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		providerconfig.Setup,
+		folder.Setup,
+		project.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -30,6 +34,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		providerconfig.SetupGated,
+		folder.SetupGated,
+		project.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

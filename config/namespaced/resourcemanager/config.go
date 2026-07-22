@@ -7,4 +7,7 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("stackit_resourcemanager_project", func(r *config.Resource) {
 		r.ShortGroup = "resourcemanager"
 	})
+	p.AddResourceConfigurator("stackit_resourcemanager_folder", func(r *config.Resource) {
+		r.ShortGroup = "resourcemanager"
+	})
 }
