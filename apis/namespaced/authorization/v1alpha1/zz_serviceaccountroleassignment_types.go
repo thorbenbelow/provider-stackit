@@ -30,7 +30,7 @@ type ServiceAccountRoleAssignmentInitParameters struct {
 	ResourceIDSelector *v1.NamespacedSelector `json:"resourceIdSelector,omitempty" tf:"-"`
 
 	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
-	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/permissions`
+	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
@@ -48,7 +48,7 @@ type ServiceAccountRoleAssignmentObservation struct {
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
 	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
-	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/permissions`
+	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
@@ -73,7 +73,7 @@ type ServiceAccountRoleAssignmentParameters struct {
 	ResourceIDSelector *v1.NamespacedSelector `json:"resourceIdSelector,omitempty" tf:"-"`
 
 	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
-	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/permissions`
+	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
