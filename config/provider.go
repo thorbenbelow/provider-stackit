@@ -180,9 +180,9 @@ var resourceSpecs = map[string]resourceSpec{
 	"stackit_intake_runner":                {group: "intake", kind: "Runner"},
 
 	// 7. Platform, AI & DevTools
-	"stackit_scf_organization":         {group: "scf", kind: "Organization"},
-	"stackit_scf_organization_manager": {group: "scf", kind: "OrganizationManager", refs: map[string]refSpec{"org_id": {"stackit_scf_organization", "org_id"}}},
-	"stackit_git":                      {group: "git", kind: "Instance"},
+	"stackit_scf_organization":          {group: "scf", kind: "Organization"},
+	"stackit_scf_organization_manager":  {group: "scf", kind: "OrganizationManager", refs: map[string]refSpec{"org_id": {"stackit_scf_organization", "org_id"}}},
+	"stackit_git":                       {group: "git", kind: "Instance"},
 	"stackit_modelexperiments_instance": {group: "modelexperiments", kind: "Instance"},
 	"stackit_modelexperiments_token":    {group: "modelexperiments", kind: "Token", refs: map[string]refSpec{"instance_id": {"stackit_modelexperiments_instance", "instance_id"}}},
 	"stackit_modelserving_token":        {group: "modelserving", kind: "Token"},

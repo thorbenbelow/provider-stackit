@@ -235,6 +235,14 @@ jobs:
       - name: Deploying locally built provider package
         run: make local-deploy
 
+      - name: Debug on failure
+        if: failure()
+        run: |
+          kubectl get provider,providerrevision,pods -A || true
+          kubectl describe provider || true
+          kubectl describe providerrevision || true
+          kubectl logs -n crossplane-system -l app=crossplane --tail=100 || true
+
   publish-artifacts:
     runs-on: ubuntu-24.04
     needs:

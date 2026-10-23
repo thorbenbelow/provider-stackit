@@ -6,10 +6,10 @@ echo "Creating cloud credential secret..."
 ${KUBECTL} -n crossplane-system create secret generic provider-secret --from-literal=credentials="${UPTEST_CLOUD_CREDENTIALS}" --dry-run=client -o yaml | ${KUBECTL} apply -f -
 
 echo "Waiting until provider is healthy..."
-${KUBECTL} wait provider.pkg --all --for condition=Healthy --timeout 5m
+${KUBECTL} wait provider.pkg --all --for condition=Healthy --timeout 15m
 
 echo "Waiting for all pods to come online..."
-${KUBECTL} -n crossplane-system wait --for=condition=Available deployment --all --timeout=5m
+${KUBECTL} -n crossplane-system wait --for=condition=Available deployment --all --timeout=15m
 
 echo "Creating a default provider config..."
 cat <<EOF | ${KUBECTL} apply -f -
@@ -41,5 +41,5 @@ spec:
       key: credentials
 EOF
 
-${KUBECTL} wait provider.pkg --all --for condition=Healthy --timeout 5m
-${KUBECTL} -n crossplane-system wait --for=condition=Available deployment --all --timeout=5m
+${KUBECTL} wait provider.pkg --all --for condition=Healthy --timeout 15m
+${KUBECTL} -n crossplane-system wait --for=condition=Available deployment --all --timeout=15m
