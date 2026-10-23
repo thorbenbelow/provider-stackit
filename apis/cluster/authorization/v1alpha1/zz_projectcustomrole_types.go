@@ -30,6 +30,7 @@ type ProjectCustomRoleInitParameters struct {
 	// (String) Resource to add the custom role to.
 	// Resource to add the custom role to.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/cluster/resourcemanager/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",true)
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
 	// Reference to a Project in resourcemanager to populate resourceId.
@@ -87,6 +88,7 @@ type ProjectCustomRoleParameters struct {
 	// (String) Resource to add the custom role to.
 	// Resource to add the custom role to.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/cluster/resourcemanager/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",true)
 	// +kubebuilder:validation:Optional
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 

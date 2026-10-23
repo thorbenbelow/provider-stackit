@@ -9,6 +9,7 @@ package v1alpha1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	v1alpha1 "github.com/thorbenbelow/provider-stackit/apis/cluster/resourcemanager/v1alpha1"
 	v1alpha11 "github.com/thorbenbelow/provider-stackit/apis/cluster/serviceaccount/v1alpha1"
@@ -24,7 +25,7 @@ func (mg *FolderCustomRole) ResolveReferences(ctx context.Context, c client.Read
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("folder_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ResourceIDRef,
 		Selector:     mg.Spec.ForProvider.ResourceIDSelector,
@@ -41,7 +42,7 @@ func (mg *FolderCustomRole) ResolveReferences(ctx context.Context, c client.Read
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("folder_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ResourceIDRef,
 		Selector:     mg.Spec.InitProvider.ResourceIDSelector,
@@ -68,7 +69,7 @@ func (mg *FolderRoleAssignment) ResolveReferences(ctx context.Context, c client.
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("folder_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ResourceIDRef,
 		Selector:     mg.Spec.ForProvider.ResourceIDSelector,
@@ -85,7 +86,7 @@ func (mg *FolderRoleAssignment) ResolveReferences(ctx context.Context, c client.
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("folder_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ResourceIDRef,
 		Selector:     mg.Spec.InitProvider.ResourceIDSelector,
@@ -112,7 +113,7 @@ func (mg *ProjectCustomRole) ResolveReferences(ctx context.Context, c client.Rea
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("project_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ResourceIDRef,
 		Selector:     mg.Spec.ForProvider.ResourceIDSelector,
@@ -129,7 +130,7 @@ func (mg *ProjectCustomRole) ResolveReferences(ctx context.Context, c client.Rea
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("project_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ResourceIDRef,
 		Selector:     mg.Spec.InitProvider.ResourceIDSelector,
@@ -156,7 +157,7 @@ func (mg *ProjectRoleAssignment) ResolveReferences(ctx context.Context, c client
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("project_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ResourceIDRef,
 		Selector:     mg.Spec.ForProvider.ResourceIDSelector,
@@ -173,7 +174,7 @@ func (mg *ProjectRoleAssignment) ResolveReferences(ctx context.Context, c client
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("project_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ResourceIDRef,
 		Selector:     mg.Spec.InitProvider.ResourceIDSelector,
@@ -200,7 +201,7 @@ func (mg *ServiceAccountRoleAssignment) ResolveReferences(ctx context.Context, c
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("service_account_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ResourceIDRef,
 		Selector:     mg.Spec.ForProvider.ResourceIDSelector,
@@ -217,7 +218,7 @@ func (mg *ServiceAccountRoleAssignment) ResolveReferences(ctx context.Context, c
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceID),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("service_account_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ResourceIDRef,
 		Selector:     mg.Spec.InitProvider.ResourceIDSelector,

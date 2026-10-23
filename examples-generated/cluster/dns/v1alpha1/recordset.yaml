@@ -1,0 +1,21 @@
+apiVersion: dns.stackit.kubee.dev/v1alpha1
+kind: RecordSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/recordset
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    comment: Example comment
+    name: example-record-set
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    records:
+    - 1.2.3.4
+    type: A
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

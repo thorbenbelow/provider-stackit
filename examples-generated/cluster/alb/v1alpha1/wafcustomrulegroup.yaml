@@ -1,0 +1,29 @@
+apiVersion: alb.stackit.kubee.dev/v1alpha1
+kind: WAFCustomRuleGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/wafcustomrulegroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example-custom-rule-group
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    rules:
+    - behavior:
+        action: ACTION_DENY
+        log: true
+        logMsg: Some custom notification message string
+      conditions:
+      - operator:
+          type: OPERATOR_BEGINS_WITH
+          value: allowed objects
+        transformations:
+        - TRANSFORMATION_LOWERCASE
+        variable:
+          type: VARIABLE_REQUEST_HEADERS
+          value: Host
+      description: My custom rule group

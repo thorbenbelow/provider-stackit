@@ -1,0 +1,27 @@
+apiVersion: vpc.stackit.kubee.dev/v1alpha1
+kind: RoutingTableStaticRoute
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/routingtablestaticroute
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    destination:
+      type: cidrv4
+      value: 192.168.0.0/24
+    labels:
+      key: value
+    nexthop:
+      type: ipv4
+      value: 10.0.0.8
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    routingTableIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -1,0 +1,21 @@
+apiVersion: kms.stackit.m.kubee.dev/v1alpha1
+kind: WrappingKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/wrappingkey
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    algorithm: rsa_2048_oaep_sha256
+    displayName: example-name
+    keyringIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    protection: software
+    purpose: wrap_symmetric_key

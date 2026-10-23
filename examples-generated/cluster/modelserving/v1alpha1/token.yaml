@@ -1,0 +1,16 @@
+apiVersion: modelserving.stackit.kubee.dev/v1alpha1
+kind: Token
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelserving/v1alpha1/token
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: Example token
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    rotateWhenChanged:
+      rotation: ${time_rotating.rotate.id}

@@ -1,0 +1,46 @@
+apiVersion: modelexperiments.stackit.kubee.dev/v1alpha1
+kind: Token
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelexperiments/v1alpha1/token
+  labels:
+    testing.upbound.io/example-name: token
+  name: token
+spec:
+  forProvider:
+    description: Example token description
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    labels:
+      label: ExampleLlabel
+    name: Example token nane
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01
+    rotateWhenChanged:
+      rotation: ${time_rotating.rotate.id}
+    ttlDuration: 80d
+
+---
+
+apiVersion: modelexperiments.stackit.kubee.dev/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelexperiments/v1alpha1/token
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    deletedExperimentRetention: 30d
+    description: Example description
+    labels:
+      label: ExampleLabel
+    name: Example name
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01

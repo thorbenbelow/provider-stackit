@@ -1,0 +1,20 @@
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: PublicIPAssociate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/publicipassociate
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    networkInterfaceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    publicIpIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

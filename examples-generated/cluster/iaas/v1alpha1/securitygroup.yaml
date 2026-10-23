@@ -1,0 +1,16 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/securitygroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    labels:
+      key: value
+    name: my_security_group
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -1,0 +1,13 @@
+apiVersion: sfs.stackit.kubee.dev/v1alpha1
+kind: ProjectLock
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sfs/v1alpha1/projectlock
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -23,6 +23,7 @@ type ServiceAccountInitParameters struct {
 	// (String) STACKIT project ID to which the service account is associated.
 	// STACKIT project ID to which the service account is associated.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/namespaced/resourcemanager/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",true)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in resourcemanager to populate projectId.
@@ -65,6 +66,7 @@ type ServiceAccountParameters struct {
 	// (String) STACKIT project ID to which the service account is associated.
 	// STACKIT project ID to which the service account is associated.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/namespaced/resourcemanager/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",true)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 

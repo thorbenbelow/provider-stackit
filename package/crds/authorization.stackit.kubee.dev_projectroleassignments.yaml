@@ -158,7 +158,7 @@ spec:
                     type: object
                   role:
                     description: |-
-                      cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+                      cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
                       Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
                     type: string
                   subject:
@@ -263,7 +263,7 @@ spec:
                     type: object
                   role:
                     description: |-
-                      cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+                      cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
                       Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
                     type: string
                   subject:
@@ -383,7 +383,7 @@ spec:
                     type: string
                   role:
                     description: |-
-                      cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+                      cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
                       Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
                     type: string
                   subject:

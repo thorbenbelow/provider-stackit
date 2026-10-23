@@ -1,0 +1,22 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: NetworkAreaRoute
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/networkarearoute
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    destination:
+      type: cidrv4
+      value: 192.168.0.0/24
+    labels:
+      key: value
+    networkAreaIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    nextHop:
+      type: ipv4
+      value: 192.168.0.0
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

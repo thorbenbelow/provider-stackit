@@ -1,0 +1,19 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: ServerNetworkInterfaceAttach
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/servernetworkinterfaceattach
+  labels:
+    testing.upbound.io/example-name: attached_network_interface
+  name: attached-network-interface
+spec:
+  forProvider:
+    networkInterfaceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    serverIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

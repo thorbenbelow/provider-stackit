@@ -1,0 +1,52 @@
+apiVersion: objectstorage.stackit.kubee.dev/v1alpha1
+kind: DefaultRetention
+metadata:
+  annotations:
+    meta.upbound.io/example-id: objectstorage/v1alpha1/defaultretention
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    bucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket_object_lock
+    days: 2
+    mode: GOVERNANCE
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: objectstorage.stackit.kubee.dev/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: objectstorage/v1alpha1/defaultretention
+  labels:
+    testing.upbound.io/example-name: bucket_object_lock
+  name: bucket-object-lock
+spec:
+  forProvider:
+    name: example-bucket-with-lock
+    objectLock: true
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: objectstorage.stackit.kubee.dev/v1alpha1
+kind: ComplianceLock
+metadata:
+  annotations:
+    meta.upbound.io/example-id: objectstorage/v1alpha1/defaultretention
+  labels:
+    testing.upbound.io/example-name: example_lock
+  name: example-lock
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

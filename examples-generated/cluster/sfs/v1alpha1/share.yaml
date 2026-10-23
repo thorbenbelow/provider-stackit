@@ -1,0 +1,23 @@
+apiVersion: sfs.stackit.kubee.dev/v1alpha1
+kind: Share
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sfs/v1alpha1/share
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    exportPolicySelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    labels:
+      foo: bar
+    name: my-nfs-share
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    resourcePoolIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    spaceHardLimitGigabytes: 32

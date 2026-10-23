@@ -18,6 +18,7 @@ type ServiceAccountRoleAssignmentInitParameters struct {
 	// account Resource to assign the role to.
 	// Service-account Resource to assign the role to.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/cluster/serviceaccount/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("service_account_id",true)
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
 	// Reference to a ServiceAccount in serviceaccount to populate resourceId.
@@ -28,7 +29,7 @@ type ServiceAccountRoleAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceIDSelector *v1.Selector `json:"resourceIdSelector,omitempty" tf:"-"`
 
-	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+	// cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
 	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
@@ -46,7 +47,7 @@ type ServiceAccountRoleAssignmentObservation struct {
 	// Service-account Resource to assign the role to.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
-	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+	// cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
 	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
@@ -60,6 +61,7 @@ type ServiceAccountRoleAssignmentParameters struct {
 	// account Resource to assign the role to.
 	// Service-account Resource to assign the role to.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/cluster/serviceaccount/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("service_account_id",true)
 	// +kubebuilder:validation:Optional
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
@@ -71,7 +73,7 @@ type ServiceAccountRoleAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceIDSelector *v1.Selector `json:"resourceIdSelector,omitempty" tf:"-"`
 
-	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+	// cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
 	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`

@@ -1,0 +1,56 @@
+apiVersion: vpn.stackit.m.kubee.dev/v1alpha1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpn/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: example-vpn-connection
+    gatewayIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tunnel1:
+      phase1:
+        dhGroups:
+        - ecp384
+        encryptionAlgorithms:
+        - aes256
+        integrityAlgorithms:
+        - sha2_384
+      phase2:
+        dhGroups:
+        - ecp384
+        encryptionAlgorithms:
+        - aes256
+        integrityAlgorithms:
+        - sha2_384
+      preSharedKeyWoSecretRef:
+        key: example-key
+        name: example-secret
+      remoteAddress: 198.51.100.10
+    tunnel2:
+      phase1:
+        dhGroups:
+        - ecp384
+        encryptionAlgorithms:
+        - aes256
+        integrityAlgorithms:
+        - sha2_384
+      phase2:
+        dhGroups:
+        - ecp384
+        encryptionAlgorithms:
+        - aes256
+        integrityAlgorithms:
+        - sha2_384
+      preSharedKeyWoSecretRef:
+        key: example-key
+        name: example-secret
+      remoteAddress: 203.0.113.10

@@ -1,0 +1,19 @@
+apiVersion: telemetryrouter.stackit.m.kubee.dev/v1alpha1
+kind: AccessToken
+metadata:
+  annotations:
+    meta.upbound.io/example-id: telemetryrouter/v1alpha1/accesstoken
+  labels:
+    testing.upbound.io/example-name: accessToken
+  name: accesstoken
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: telemetryrouter-access-token-example
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01

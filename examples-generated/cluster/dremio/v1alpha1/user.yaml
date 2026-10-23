@@ -1,0 +1,22 @@
+apiVersion: dremio.stackit.kubee.dev/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dremio/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: STACKIT Terraform example
+    email: example@example.com
+    firstName: Test
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    lastName: User
+    name: testUser
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01

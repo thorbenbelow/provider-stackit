@@ -1,0 +1,20 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: ServerUpdateSchedule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/serverupdateschedule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    enabled: true
+    maintenanceWindow: 1
+    name: example_update_schedule_name
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    rrule: DTSTART;TZID=Europe/Sofia:20200803T023000 RRULE:FREQ=DAILY;INTERVAL=1
+    serverIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

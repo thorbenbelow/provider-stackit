@@ -28,4 +28,6 @@ spec:
   forProvider:
     name: example_project
     ownerEmail: foo.bar@stackit.cloud
-    parentContainerId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    parentContainerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

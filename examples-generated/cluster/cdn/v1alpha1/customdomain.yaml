@@ -1,0 +1,27 @@
+apiVersion: cdn.stackit.kubee.dev/v1alpha1
+kind: CustomDomain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cdn/v1alpha1/customdomain
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    certificate:
+      certificateSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+      privateKeySecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+      skipDnsCheck: true
+    distributionIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: https://xxx.xxx
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

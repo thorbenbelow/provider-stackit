@@ -14,4 +14,6 @@ spec:
       billingReference: fooref
     name: example-container
     ownerEmail: john.doe@stackit.cloud
-    parentContainerId: example-parent-container-abc123
+    parentContainerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

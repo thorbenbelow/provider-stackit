@@ -1,0 +1,14 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: NetworkArea
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/networkarea
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    labels:
+      key: value
+    name: example-network-area
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

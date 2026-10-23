@@ -1,0 +1,37 @@
+apiVersion: cdn.stackit.m.kubee.dev/v1alpha1
+kind: Distribution
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cdn/v1alpha1/distribution
+  labels:
+    testing.upbound.io/example-name: example_distribution
+  name: example-distribution
+  namespace: crossplane-system
+spec:
+  forProvider:
+    config:
+      backend:
+        geofencing:
+          https://mybackend.onstackit.cloud:
+          - DE
+        originUrl: https://mybackend.onstackit.cloud
+        type: http
+      blockedCountries:
+      - DE
+      - AT
+      - CH
+      blockedIps:
+      - 1.1.1.1
+      defaultCacheDuration: P1DT2H30M
+      monthlyLimitBytes: 1048576
+      optimizer:
+        enabled: true
+      regions:
+      - EU
+      - US
+      - ASIA
+      - AF
+      - SA
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -1,0 +1,19 @@
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: Volume
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/volume
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    availabilityZone: eu01-1
+    labels:
+      key: value
+    name: my_volume
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    size: 64

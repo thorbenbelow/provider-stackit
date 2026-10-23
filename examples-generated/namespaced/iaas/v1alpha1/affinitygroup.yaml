@@ -1,0 +1,43 @@
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: AffinityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/affinitygroup
+  labels:
+    testing.upbound.io/example-name: affinity-group
+  name: affinity-group
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-key-pair
+    policy: soft-affinity
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/affinitygroup
+  labels:
+    testing.upbound.io/example-name: example-server
+  name: example-server
+  namespace: crossplane-system
+spec:
+  forProvider:
+    affinityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: affinity-group
+    availabilityZone: eu01-1
+    bootVolume:
+      size: 64
+      sourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      sourceType: image
+    machineType: g2i.1
+    name: example-server
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

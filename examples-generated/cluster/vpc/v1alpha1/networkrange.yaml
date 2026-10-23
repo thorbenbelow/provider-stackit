@@ -1,0 +1,38 @@
+apiVersion: vpc.stackit.kubee.dev/v1alpha1
+kind: NetworkRange
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/networkrange
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: my vpc network range
+    ipVersion: ipv4
+    prefix: 192.168.0.0/24
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: region
+
+---
+
+apiVersion: vpc.stackit.kubee.dev/v1alpha1
+kind: Region
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/networkrange
+  labels:
+    testing.upbound.io/example-name: region
+  name: region
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -1,0 +1,271 @@
+apiVersion: loadbalancer.stackit.kubee.dev/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    externalAddress: ${stackit_public_ip.public-ip.ip}
+    listeners:
+    - displayName: example-listener
+      port: 80
+      protocol: PROTOCOL_TCP
+      targetPool: example-target-pool
+      tcp:
+        idleTimeout: 90s
+    name: example-load-balancer
+    networks:
+    - networkId: ${stackit_network.example_network.network_id}
+      role: ROLE_LISTENERS_AND_TARGETS
+    options:
+      privateNetworkOnly: false
+    planId: p10
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    targetPools:
+    - activeHealthCheck:
+        healthyThreshold: 10
+        interval: 3s
+        intervalJitter: 3s
+        timeout: 3s
+        unhealthyThreshold: 10
+      name: example-target-pool
+      targetPort: 80
+      targets:
+      - displayName: example-server
+        ip: ${stackit_network_interface.nic.ipv4}
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: KeyPair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: keypair
+  name: keypair
+spec:
+  forProvider:
+    name: example-key-pair
+    publicKey: ${chomp(file("path/to/id_rsa.pub"))}
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example_network
+  name: example-network
+spec:
+  forProvider:
+    ipv4Nameservers:
+    - 8.8.8.8
+    ipv4Prefix: 192.168.0.0/25
+    labels:
+      key: value
+    name: example-network
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    routed: true
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: lb_network
+  name: lb-network
+spec:
+  forProvider:
+    ipv4Nameservers:
+    - 8.8.8.8
+    ipv4Prefix: 192.168.10.0/25
+    name: lb-network-example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    routed: true
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: target_network
+  name: target-network
+spec:
+  forProvider:
+    ipv4Nameservers:
+    - 8.8.8.8
+    ipv4Prefix: 192.168.15.0/25
+    name: target-network-example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: nic
+  name: nic
+spec:
+  forProvider:
+    networkIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target_network
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    securityGroupIds:
+    - ${stackit_security_group.target_sg.security_group_id}
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: PublicIP
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: PublicIP
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: public-ip
+  name: public-ip
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: target_sg
+  name: target-sg
+spec:
+  forProvider:
+    description: Allows ingress traffic from the example load balancer.
+    name: target-sg-for-lb-access
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: SecurityGroupRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: allow_lb_ingress
+  name: allow-lb-ingress
+spec:
+  forProvider:
+    direction: ingress
+    portRange:
+      max: 80
+      min: 80
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    protocol:
+      name: tcp
+    remoteSecurityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target_sg
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: boot-from-image
+  name: boot-from-image
+spec:
+  forProvider:
+    availabilityZone: xxxx-x
+    bootVolume:
+      size: 64
+      sourceId: 7b10e105-295b-4369-b6e0-567ec940a02b
+      sourceType: image
+    keypairNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keypair
+    machineType: g2i.1
+    name: example-server
+    networkInterfaces:
+    - ${stackit_network_interface.nic.network_interface_id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    availabilityZone: eu01-1
+    bootVolume:
+      size: 10
+      sourceId: ${var.image_id}
+      sourceType: image
+    machineType: g2i.2
+    name: example-remote-target
+    networkInterfaces:
+    - ${stackit_network_interface.nic.network_interface_id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

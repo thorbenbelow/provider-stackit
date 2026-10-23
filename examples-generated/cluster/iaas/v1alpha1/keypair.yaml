@@ -1,0 +1,38 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: KeyPair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/keypair
+  labels:
+    testing.upbound.io/example-name: keypair
+  name: keypair
+spec:
+  forProvider:
+    name: example-key-pair
+    publicKey: ${chomp(file("path/to/id_rsa.pub"))}
+
+---
+
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/keypair
+  labels:
+    testing.upbound.io/example-name: example-server
+  name: example-server
+spec:
+  forProvider:
+    availabilityZone: eu01-1
+    bootVolume:
+      size: 64
+      sourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      sourceType: image
+    keypairNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    machineType: g2i.1
+    name: example-server
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

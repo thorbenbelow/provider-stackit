@@ -1,0 +1,23 @@
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: SecurityGroupRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/securitygrouprule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    direction: ingress
+    icmpParameters:
+      code: 0
+      type: 8
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    protocol:
+      name: icmp
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

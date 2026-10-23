@@ -1,0 +1,31 @@
+apiVersion: ske.stackit.kubee.dev/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ske/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    audit:
+      enabled: true
+    kubernetesVersionMin: x.x
+    name: example
+    network:
+      controlPlane:
+        accessScope: PUBLIC
+    nodePools:
+    - availabilityZones:
+      - eu01-3
+      machineType: x.x
+      maximum: "3"
+      minimum: "2"
+      name: np-example
+      osName: xxx
+      osVersion: x.x.x
+      volumeSize: "48"
+      volumeType: storage_premium_perf6
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

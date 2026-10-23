@@ -1,0 +1,20 @@
+apiVersion: modelexperiments.stackit.m.kubee.dev/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelexperiments/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    deletedExperimentRetention: 30d
+    description: Example description
+    labels:
+      label: ExampleLabel
+    name: Example name
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01

@@ -19,6 +19,7 @@ type KeyInitParameters struct {
 	// (String) The STACKIT project ID associated with the service account key.
 	// The STACKIT project ID associated with the service account key.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/namespaced/resourcemanager/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",true)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in resourcemanager to populate projectId.
@@ -41,6 +42,7 @@ type KeyInitParameters struct {
 	// (String) The email address associated with the service account, used for account identification and communication.
 	// The email address associated with the service account, used for account identification and communication.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/namespaced/serviceaccount/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in serviceaccount to populate serviceAccountEmail.
@@ -92,6 +94,7 @@ type KeyParameters struct {
 	// (String) The STACKIT project ID associated with the service account key.
 	// The STACKIT project ID associated with the service account key.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/namespaced/resourcemanager/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",true)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -117,6 +120,7 @@ type KeyParameters struct {
 	// (String) The email address associated with the service account, used for account identification and communication.
 	// The email address associated with the service account, used for account identification and communication.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/namespaced/serviceaccount/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 

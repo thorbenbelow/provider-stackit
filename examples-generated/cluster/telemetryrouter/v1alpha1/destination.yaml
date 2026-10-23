@@ -1,0 +1,42 @@
+apiVersion: telemetryrouter.stackit.kubee.dev/v1alpha1
+kind: Destination
+metadata:
+  annotations:
+    meta.upbound.io/example-id: telemetryrouter/v1alpha1/destination
+  labels:
+    testing.upbound.io/example-name: s3
+  name: s3
+spec:
+  forProvider:
+    config:
+      configType: S3
+      filter:
+        attributes:
+        - key: key
+          level: logRecord
+          matcher: '!='
+          values:
+          - test1
+          - test2
+        - key: key2
+          level: resource
+          matcher: =
+          values:
+          - test3
+      s3:
+        accessKey:
+          id: id
+          secretSecretRef:
+            key: example-key
+            name: example-secret
+            namespace: upbound-system
+        bucket: test
+        endpoint: http://localhost:8160
+    description: S3 destination description
+    displayName: s3-destination
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

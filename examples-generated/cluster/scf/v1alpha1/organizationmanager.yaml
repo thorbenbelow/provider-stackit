@@ -1,0 +1,16 @@
+apiVersion: scf.stackit.kubee.dev/v1alpha1
+kind: OrganizationManager
+metadata:
+  annotations:
+    meta.upbound.io/example-id: scf/v1alpha1/organizationmanager
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

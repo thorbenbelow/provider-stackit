@@ -33,7 +33,17 @@ type ProjectInitParameters struct {
 
 	// friendly) and UUID are supported
 	// Parent resource identifier. Both container ID (user-friendly) and UUID are supported
+	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/namespaced/resourcemanager/v1alpha1.Folder
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("container_id",true)
 	ParentContainerID *string `json:"parentContainerId,omitempty" tf:"parent_container_id,omitempty"`
+
+	// Reference to a Folder in resourcemanager to populate parentContainerId.
+	// +kubebuilder:validation:Optional
+	ParentContainerIDRef *v1.NamespacedReference `json:"parentContainerIdRef,omitempty" tf:"-"`
+
+	// Selector for a Folder in resourcemanager to populate parentContainerId.
+	// +kubebuilder:validation:Optional
+	ParentContainerIDSelector *v1.NamespacedSelector `json:"parentContainerIdSelector,omitempty" tf:"-"`
 }
 
 type ProjectObservation struct {
@@ -99,8 +109,18 @@ type ProjectParameters struct {
 
 	// friendly) and UUID are supported
 	// Parent resource identifier. Both container ID (user-friendly) and UUID are supported
+	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/namespaced/resourcemanager/v1alpha1.Folder
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("container_id",true)
 	// +kubebuilder:validation:Optional
 	ParentContainerID *string `json:"parentContainerId,omitempty" tf:"parent_container_id,omitempty"`
+
+	// Reference to a Folder in resourcemanager to populate parentContainerId.
+	// +kubebuilder:validation:Optional
+	ParentContainerIDRef *v1.NamespacedReference `json:"parentContainerIdRef,omitempty" tf:"-"`
+
+	// Selector for a Folder in resourcemanager to populate parentContainerId.
+	// +kubebuilder:validation:Optional
+	ParentContainerIDSelector *v1.NamespacedSelector `json:"parentContainerIdSelector,omitempty" tf:"-"`
 }
 
 // ProjectSpec defines the desired state of Project
@@ -141,7 +161,6 @@ type Project struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ownerEmail) || (has(self.initProvider) && has(self.initProvider.ownerEmail))",message="spec.forProvider.ownerEmail is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.parentContainerId) || (has(self.initProvider) && has(self.initProvider.parentContainerId))",message="spec.forProvider.parentContainerId is a required parameter"
 	Spec   ProjectSpec   `json:"spec"`
 	Status ProjectStatus `json:"status,omitempty"`
 }

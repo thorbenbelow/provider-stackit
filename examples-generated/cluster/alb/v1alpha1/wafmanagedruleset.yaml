@@ -1,0 +1,15 @@
+apiVersion: alb.stackit.kubee.dev/v1alpha1
+kind: WAFManagedRuleSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/wafmanagedruleset
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example-managed-rule-set
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: TYPE_OWASP_CRS

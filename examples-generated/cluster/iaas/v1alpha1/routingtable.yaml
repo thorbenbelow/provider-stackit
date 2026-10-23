@@ -1,0 +1,17 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: RoutingTable
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/routingtable
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    labels:
+      key: value
+    name: example
+    networkAreaIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

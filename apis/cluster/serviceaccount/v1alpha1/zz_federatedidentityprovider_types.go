@@ -77,6 +77,7 @@ type FederatedIdentityProviderInitParameters struct {
 	// (String) The STACKIT project ID associated with the service account.
 	// The STACKIT project ID associated with the service account.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/cluster/resourcemanager/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",true)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in resourcemanager to populate projectId.
@@ -89,7 +90,17 @@ type FederatedIdentityProviderInitParameters struct {
 
 	// (String) The email address associated with the service account, used for account identification and communication.
 	// The email address associated with the service account, used for account identification and communication.
+	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/cluster/serviceaccount/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in serviceaccount to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in serviceaccount to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type FederatedIdentityProviderObservation struct {
@@ -140,6 +151,7 @@ type FederatedIdentityProviderParameters struct {
 	// (String) The STACKIT project ID associated with the service account.
 	// The STACKIT project ID associated with the service account.
 	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/cluster/resourcemanager/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",true)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -153,8 +165,18 @@ type FederatedIdentityProviderParameters struct {
 
 	// (String) The email address associated with the service account, used for account identification and communication.
 	// The email address associated with the service account, used for account identification and communication.
+	// +crossplane:generate:reference:type=github.com/thorbenbelow/provider-stackit/apis/cluster/serviceaccount/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in serviceaccount to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in serviceaccount to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 // FederatedIdentityProviderSpec defines the desired state of FederatedIdentityProvider
@@ -196,7 +218,6 @@ type FederatedIdentityProvider struct {
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.assertions) || (has(self.initProvider) && has(self.initProvider.assertions))",message="spec.forProvider.assertions is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.issuer) || (has(self.initProvider) && has(self.initProvider.issuer))",message="spec.forProvider.issuer is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.serviceAccountEmail) || (has(self.initProvider) && has(self.initProvider.serviceAccountEmail))",message="spec.forProvider.serviceAccountEmail is a required parameter"
 	Spec   FederatedIdentityProviderSpec   `json:"spec"`
 	Status FederatedIdentityProviderStatus `json:"status,omitempty"`
 }

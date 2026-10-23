@@ -1,0 +1,18 @@
+apiVersion: vpc.stackit.m.kubee.dev/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vpc
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: Example description
+    labels:
+      key: value
+    name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

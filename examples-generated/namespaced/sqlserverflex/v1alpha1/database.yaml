@@ -1,0 +1,21 @@
+apiVersion: sqlserverflex.stackit.m.kubee.dev/v1alpha1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sqlserverflex/v1alpha1/database
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    collation: SQL_Latin1_General_CP1_CI_AS
+    compatibility: 160
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: example-database
+    owner: example-user
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

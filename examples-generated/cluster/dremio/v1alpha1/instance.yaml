@@ -1,0 +1,38 @@
+apiVersion: dremio.stackit.kubee.dev/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dremio/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    authentication:
+      azuread:
+        authorityUrl: authority
+        clientId: client-id
+        clientSecretSecretRef:
+          key: example-key
+          name: example-secret
+          namespace: upbound-system
+      oauth:
+        authorityUrl: authority
+        clientId: client-id
+        clientSecretSecretRef:
+          key: example-key
+          name: example-secret
+          namespace: upbound-system
+        jwtClaims:
+          userName: example
+        parameters:
+        - name: example
+          value: example-value
+        scope: idp-scope
+      type: local-only
+    description: Example description
+    displayName: exampleName
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01

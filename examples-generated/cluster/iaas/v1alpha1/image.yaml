@@ -1,0 +1,18 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: Image
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/image
+  labels:
+    testing.upbound.io/example-name: example_image
+  name: example-image
+spec:
+  forProvider:
+    diskFormat: qcow2
+    localFilePath: ./path/to/image.qcow2
+    minDiskSize: 10
+    minRam: 5
+    name: example-image
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

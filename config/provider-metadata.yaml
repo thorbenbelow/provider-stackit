@@ -102,6 +102,147 @@ resources:
             public_key: (String) The PEM encoded public key part
             region: (String) The resource region (e.g. eu01). If not defined, the provider region is used.
         importStatements: []
+    stackit_alb_waf_configuration:
+        subCategory: ""
+        description: ALB WAF Custom Rule Group resource schema. Uses the default_region specified in the provider configuration as a fallback in case no region is defined on resource level.
+        name: stackit_alb_waf_configuration
+        title: stackit_alb_waf_configuration Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "custom_rule_group_name": "${stackit_alb_waf_custom_rule_group.example.name}",
+                  "labels": {
+                    "key": "value"
+                  },
+                  "managed_rule_set_name": "${stackit_alb_waf_managed_rule_set.example.name}",
+                  "name": "example-waf-configuration",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+              references:
+                custom_rule_group_name: stackit_alb_waf_custom_rule_group.example.name
+                managed_rule_set_name: stackit_alb_waf_managed_rule_set.example.name
+              dependencies:
+                stackit_alb_waf_custom_rule_group.example: |-
+                    {
+                      "name": "example-custom-rule-group",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "rules": [
+                        {
+                          "behavior": {
+                            "action": "ACTION_DENY"
+                          },
+                          "conditions": [
+                            {
+                              "operator": {
+                                "type": "OPERATOR_VALIDATE_UTF8_ENCODING"
+                              },
+                              "variable": {
+                                "type": "VARIABLE_REQUEST_HEADERS"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                stackit_alb_waf_managed_rule_set.example: |-
+                    {
+                      "name": "example-managed-rule-set",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "type": "TYPE_OWASP_CRS"
+                    }
+        argumentDocs:
+            custom_rule_group_name: (String) Name of the custom rule group for this WAF Configuration.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,name".
+            labels: (Map of String) User-defined metadata as key-value pairs. Should not exceed 64 entries.
+            managed_rule_set_name: (String) Name of the managed rule set configuration for this WAF Configuration.
+            name: (String) The name of the WAF Configuration.
+            project_id: (String) STACKIT project ID to which the WAF Configuration is associated.
+            region: (String) The resource region (e.g. eu01). If not defined, the provider region is used.
+        importStatements: []
+    stackit_alb_waf_custom_rule_group:
+        subCategory: ""
+        description: ALB WAF Custom Rule Group resource schema. Uses the default_region specified in the provider configuration as a fallback in case no region is defined on resource level.
+        name: stackit_alb_waf_custom_rule_group
+        title: stackit_alb_waf_custom_rule_group Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-custom-rule-group",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rules": [
+                    {
+                      "behavior": {
+                        "action": "ACTION_DENY",
+                        "log": true,
+                        "log_msg": "Some custom notification message string"
+                      },
+                      "conditions": [
+                        {
+                          "operator": {
+                            "type": "OPERATOR_BEGINS_WITH",
+                            "value": "allowed objects"
+                          },
+                          "transformations": [
+                            "TRANSFORMATION_LOWERCASE"
+                          ],
+                          "variable": {
+                            "type": "VARIABLE_REQUEST_HEADERS",
+                            "value": "Host"
+                          }
+                        }
+                      ],
+                      "description": "My custom rule group"
+                    }
+                  ]
+                }
+        argumentDocs:
+            action: (String) The protective stance action. ACTION_DENY forces a 403 status response code.
+            behavior: (Attributes) (see below for nested schema)
+            conditions: (Attributes List) (see below for nested schema)
+            description: (String) A clear description explaining the threat vector or criteria addressed by this rule.
+            id: (String) Terraform's internal resource identifier. Structured as "project_id,region,name".
+            log: (Boolean) Determines whether an entry should be generated in the security ledger upon a rule hit.
+            log_msg: (String) Custom notification message string mapped to underlying logdata contexts. Required if log is true.
+            name: (String) Custom rule group configuration name.
+            operator: (Attributes) The comparison logic executed against the transformed variable. (see below for nested schema)
+            project_id: (String) STACKIT project ID associated with the ALB WAF Custom Rule Group.
+            region: (String) STACKIT region name the resource is located in. If not defined, the provider region is used.
+            rules: (Attributes List) Enriched rules containing auto-generated IDs and computed severity values. (see below for nested schema)
+            severity: (String) Severity classification metric used by internal analytics graphs.
+            transformations: (List of String) Ordered normalization steps applied before the operator runs.
+            type: (String) The operational evaluation type definition macro.
+            value: (String) The text or rule regex pattern arguments applied inside the operator execution loop.
+            variable: (Attributes) The part of the HTTP transaction to inspect. (see below for nested schema)
+        importStatements: []
+    stackit_alb_waf_managed_rule_set:
+        subCategory: ""
+        description: ALB WAF Managed Rule Set resource schema. Uses the default_region specified in the provider configuration as a fallback in case no region is defined on resource level.
+        name: stackit_alb_waf_managed_rule_set
+        title: stackit_alb_waf_managed_rule_set Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-managed-rule-set",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "type": "TYPE_OWASP_CRS"
+                }
+        argumentDocs:
+            description: (String) A description of what this group covers.
+            group_name: (String) The name for the rule group.
+            groups: (Attributes Map) Inventory of all available Managed Rule Set groups and their current configuration. (see below for nested schema)
+            id: (String) Terraform's internal resource identifier. Structured as "project_id,region,name".
+            mode: (String) The current mode of the rule.
+            name: (String) Managed Rule Set configuration name.
+            project_id: (String) STACKIT project ID associated with the ALB WAF Managed Rule Set.
+            region: (String) STACKIT region name the resource is located in. If not defined, the provider region is used.
+            rules: (Attributes Map) Rules of the rule group. (see below for nested schema)
+            severity: (String) Impact level.
+            type: (String) Type of the Managed Rule Set.
+            version: (String) Managed Rule Set version.
+        importStatements: []
     stackit_application_load_balancer:
         subCategory: ""
         description: Setting up supporting infrastructure The example below creates the supporting infrastructure using the STACKIT Terraform provider, including the network, network interface, a public IP address and server resources.
@@ -315,6 +456,7 @@ resources:
             access_control: (Attributes) Use this option to limit the IP ranges that can use the Application Load Balancer. (see below for nested schema)
             active_health_check: (Attributes) (see below for nested schema)
             allowed_source_ranges: (Set of String) Application Load Balancer is accessible only from an IP address in this range.
+            alt_port: (Number) Overrides the default port used for health check probes.
             certificate_config: (Attributes) TLS termination certificate configuration. (see below for nested schema)
             certificate_ids: (Set of String) Certificate IDs for TLS termination.
             cookie_persistence: (Attributes) Routing persistence via cookies. (see below for nested schema)
@@ -372,7 +514,7 @@ resources:
             timeout: (String) Active health checking timeout duration in seconds.
             tls_config: (Attributes) Configuration for TLS bridging. (see below for nested schema)
             ttl: (String) TTL specifies the time-to-live for the cookie. The default value is 0s, and it acts as a session cookie, expiring when the client session ends.
-            type: '(String) The error type specifies which part of the Application Load Balancer encountered the error. I.e. the API will not check if a provided public IP is actually available in the project. Instead the Application Load Balancer with try to use the provided IP and if not available reports TYPE_FIP_NOT_CONFIGURED error. Possible values are: TYPE_UNSPECIFIED, TYPE_INTERNAL, TYPE_QUOTA_SECGROUP_EXCEEDED, TYPE_QUOTA_SECGROUPRULE_EXCEEDED, TYPE_PORT_NOT_CONFIGURED, TYPE_FIP_NOT_CONFIGURED, TYPE_TARGET_NOT_ACTIVE, TYPE_METRICS_MISCONFIGURED, TYPE_LOGS_MISCONFIGURED.'
+            type: '(String) The error type specifies which part of the Application Load Balancer encountered the error. I.e. the API will not check if a provided public IP is actually available in the project. Instead the Application Load Balancer with try to use the provided IP and if not available reports TYPE_FIP_NOT_CONFIGURED error. Possible values are: TYPE_UNSPECIFIED, TYPE_INTERNAL, TYPE_QUOTA_SECGROUP_EXCEEDED, TYPE_QUOTA_SECGROUPRULE_EXCEEDED, TYPE_PORT_NOT_CONFIGURED, TYPE_FIP_NOT_CONFIGURED, TYPE_TARGET_NOT_ACTIVE, TYPE_METRICS_MISCONFIGURED, TYPE_LOGS_MISCONFIGURED, TYPE_FIP_NOT_FOUND, TYPE_IP_EXHAUSTED, TYPE_DNS_NOT_CONFIGURED, TYPE_VM_PORT_NOT_CONFIGURED.'
             unhealthy_threshold: (Number) Unhealthy threshold of the health checking.
             version: (String) Application Load Balancer resource version. Used for concurrency safe updates.
             waf_config_name: (String) Enable Web Application Firewall (WAF), referenced by name. See "Application Load Balancer - Web Application Firewall API" for more information.
@@ -436,7 +578,7 @@ resources:
         argumentDocs:
             id: (String) Terraform's internal resource identifier. It is structured as "resource_id,role,subject".
             resource_id: (String) Folder Resource to assign the role to.
-            role: '(String) Role to be assigned. Available roles can be queried using stackit-cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions'
+            role: '(String) Role to be assigned. Available roles can be queried using stackit-cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles'
             subject: (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
         importStatements: []
     stackit_authorization_organization_custom_role:
@@ -479,7 +621,7 @@ resources:
         argumentDocs:
             id: (String) Terraform's internal resource identifier. It is structured as "resource_id,role,subject".
             resource_id: (String) Organization Resource to assign the role to.
-            role: '(String) Role to be assigned. Available roles can be queried using stackit-cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions'
+            role: '(String) Role to be assigned. Available roles can be queried using stackit-cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles'
             subject: (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
         importStatements: []
     stackit_authorization_project_custom_role:
@@ -540,7 +682,7 @@ resources:
         argumentDocs:
             id: (String) Terraform's internal resource identifier. It is structured as "resource_id,role,subject".
             resource_id: (String) Project Resource to assign the role to.
-            role: '(String) Role to be assigned. Available roles can be queried using stackit-cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions'
+            role: '(String) Role to be assigned. Available roles can be queried using stackit-cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles'
             subject: (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
         importStatements: []
     stackit_authorization_service_account_role_assignment:
@@ -574,7 +716,7 @@ resources:
         argumentDocs:
             id: (String) Terraform's internal resource identifier. It is structured as "resource_id,role,subject".
             resource_id: (String) Service-account Resource to assign the role to.
-            role: '(String) Role to be assigned. Available roles can be queried using stackit-cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions'
+            role: '(String) Role to be assigned. Available roles can be queried using stackit-cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles'
             subject: (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
         importStatements: []
     stackit_cdn_custom_domain:
@@ -588,7 +730,8 @@ resources:
                 {
                   "certificate": {
                     "certificate": "-----BEGIN CERTIFICATE-----\nY2VydGlmaWNhdGVfZGF0YQ==\n-----END CERTIFICATE---",
-                    "private_key": "-----BEGIN RSA PRIVATE KEY-----\nY2VydGlmaWNhdGVfZGF0YQ==\n-----END RSA PRIVATE KEY---"
+                    "private_key": "-----BEGIN RSA PRIVATE KEY-----\nY2VydGlmaWNhdGVfZGF0YQ==\n-----END RSA PRIVATE KEY---",
+                    "skip_dns_check": true
                   },
                   "distribution_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
                   "name": "https://xxx.xxx",
@@ -602,6 +745,7 @@ resources:
             name: (String)
             private_key: (String, Sensitive) The PEM-encoded private key for the certificate. Required for custom certificates. The certificate will be updated if this field is changed.
             project_id: (String) STACKIT project ID associated with the distribution
+            skip_dns_check: (Boolean) When true, skips the verification check that the custom domain points to the distribution domain via CNAME. Useful for zero-downtime migrations.
             status: (String) Status of the distribution
             version: (Number) A version identifier for the certificate. Required for custom certificates. The certificate will be updated if this field is changed.
         importStatements: []
@@ -629,6 +773,11 @@ resources:
                       "AT",
                       "CH"
                     ],
+                    "blocked_ips": [
+                      "1.1.1.1"
+                    ],
+                    "default_cache_duration": "P1DT2H30M",
+                    "monthly_limit_bytes": 1048576,
                     "optimizer": {
                       "enabled": true
                     },
@@ -659,7 +808,12 @@ resources:
                       "CN",
                       "RU"
                     ],
+                    "blocked_ips": [
+                      "1.1.1.1"
+                    ],
+                    "default_cache_duration": "P1DT2H30M",
                     "forward_host_header": true,
+                    "monthly_limit_bytes": 1048576,
                     "optimizer": {
                       "enabled": false
                     },
@@ -735,10 +889,12 @@ resources:
             allowed_request_content_types: '(Set of String) Restricts which Content-Type headers are accepted in request bodies. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: application/x-www-form-urlencoded, multipart/form-data, multipart/related, text/xml, application/xml, application/soap+xml, application/x-amf, application/json, application/octet-stream, application/csp-report, application/xss-auditor-report, text/plain.'
             backend: (Attributes) The configured backend for the distribution (see below for nested schema)
             blocked_countries: (List of String) The configured countries where distribution of content is blocked
+            blocked_ips: '(List of String) Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. Note: once a value is set, removing the attribute from your configuration will retain the last known value in state; to clear it explicitly, set it to an empty list.'
             bucket_url: (String) The URL of the bucket (e.g. https://s3.example.com). Required if type is 'bucket'.
             config: (Attributes) The distribution configuration (see below for nested schema)
             created_at: (String) Time when the distribution was created
             credentials: (Attributes) The credentials for the bucket. Required if type is 'bucket'. (see below for nested schema)
+            default_cache_duration: '(String) Sets the default cache duration for the distribution. The default cache duration is applied when a ''Cache-Control'' header is not presented in the origin''s response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M). Note: once a value is set, removing the attribute from your configuration will retain the last known value in state.'
             description: (String) An optional description for the redirect rule
             disabled_rule_collection_ids: '(Set of String) Set of WAF Collection IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections'
             disabled_rule_group_ids: '(Set of String) Set of WAF Rule Group IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections'
@@ -760,13 +916,14 @@ resources:
             log_only_rule_ids: '(Set of String) Set of WAF rule IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections'
             matchers: (Attributes List) A list of matchers that define when this rule should apply. At least one matcher is required (see below for nested schema)
             mode: (String) The operating mode of the WAF. 'ENABLED' actively blocks threats, 'LOG_ONLY' logs matches without blocking, and 'DISABLED' completely turns off inspection. Defaults to 'DISABLED'.
+            monthly_limit_bytes: '(Number) Sets the monthly limit of bandwidth in bytes that the pullzone is allowed to use. Note: once a value is set, removing the attribute from your configuration will retain the last known value in state.'
             name: (String) The name of the domain
             optimizer: (Attributes) Configuration for the Image Optimizer. This is a paid feature that automatically optimizes images to reduce their file size for faster delivery, leading to improved website performance and a better user experience. (see below for nested schema)
             origin_request_headers: (Map of String) The configured type http origin request headers for the backend
             origin_url: (String) The configured backend type http for the distribution
             paranoia_level: (String) Defines how aggressively the WAF should act on requests. Valid values are 'L1' to 'L4'. Case you removed waf will retain the last known state and if omitted, The API applies the following default 'L1'.
             project_id: (String) STACKIT project ID associated with the distribution
-            redirects: (Attributes) A wrapper for a list of redirect rules that allows for redirect settings on a distribution (see below for nested schema)
+            redirects: (Attributes) A wrapper for a list of redirect rules that allows for redirect settings on a distribution. Currently, this feature is only available for distributions of backend type HTTP. (see below for nested schema)
             region: (String) The region where the bucket is hosted. Required if type is 'bucket'.
             regions: (List of String) The configured regions where content will be hosted
             rule_match_condition: (String) Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
@@ -840,7 +997,7 @@ resources:
                   "type": "primary"
                 }
         argumentDocs:
-            acl: (String) The access control list. E.g. 0.0.0.0/0,::/0
+            acl: '(String) The access control list (e.g., 0.0.0.0/0,::/0). Note: This field currently has no effect and does not enforce any access restrictions on the DNS zone.'
             active: (Boolean)
             contact_email: (String) A contact e-mail for the zone.
             create: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
@@ -870,7 +1027,7 @@ resources:
         importStatements: []
     stackit_dremio_instance:
         subCategory: ""
-        description: Manages a STACKIT Dremio instance. ~> This resource is part of the experimental feature dremio and is likely going to undergo significant changes or be removed in the future. Use it at your own discretion.
+        description: Manages a STACKIT Dremio instance. This service is only available when the provider is configured with default_region = "eu01". ~> This resource is part of the experimental feature dremio and is likely going to undergo significant changes or be removed in the future. Use it at your own discretion.
         name: stackit_dremio_instance
         title: stackit_dremio_instance Resource - stackit
         examples:
@@ -938,7 +1095,7 @@ resources:
         importStatements: []
     stackit_dremio_user:
         subCategory: ""
-        description: Manages a STACKIT Dremio instances user. ~> This resource is part of the experimental feature dremio and is likely going to undergo significant changes or be removed in the future. Use it at your own discretion.
+        description: Manages a STACKIT Dremio instances user. This service is only available when the provider is configured with default_region = "eu01". ~> This resource is part of the experimental feature dremio and is likely going to undergo significant changes or be removed in the future. Use it at your own discretion.
         name: stackit_dremio_user
         title: stackit_dremio_user Resource - stackit
         examples:
@@ -1292,7 +1449,7 @@ resources:
             key_id: (String) The ID of the key
             keyring_id: (String) The ID of the associated keyring
             project_id: (String) STACKIT project ID to which the key is associated.
-            protection: '(String) The underlying system that is responsible for protecting the key material. Possible values are: software, hsm.'
+            protection: (String) The underlying system that is responsible for protecting the key material.
             purpose: '(String) The purpose for which the key will be used. Possible values are: symmetric_encrypt_decrypt, asymmetric_encrypt_decrypt, message_authentication_code, asymmetric_sign_verify.'
             region: (String) The resource region. If not defined, the provider region is used.
         importStatements: []
@@ -1343,7 +1500,7 @@ resources:
             id: (String) Terraform's internal resource ID. It is structured as "project_id,region,keyring_id,wrapping_key_id".
             keyring_id: (String) The ID of the associated keyring
             project_id: (String) STACKIT project ID to which the keyring is associated.
-            protection: '(String) The underlying system that is responsible for protecting the key material. Possible values are: software, hsm.'
+            protection: (String) The underlying system that is responsible for protecting the key material.
             public_key: (String) The public key of the wrapping key.
             purpose: '(String) The purpose for which the key will be used. Possible values are: wrap_symmetric_key, wrap_asymmetric_key.'
             region: (String) The resource region. If not defined, the provider region is used.
@@ -1748,11 +1905,12 @@ resources:
         argumentDocs:
             credential_id: (String) The credential's ID.
             host: (String)
-            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,credential_id".
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,instance_id,credential_id".
             instance_id: (String) ID of the LogMe instance.
             password: (String, Sensitive)
             port: (Number)
             project_id: (String) STACKIT Project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
             uri: (String, Sensitive)
             username: (String)
         importStatements: []
@@ -1787,7 +1945,7 @@ resources:
             fluentd_tls_version: (String)
             fluentd_udp: (Number)
             graphite: (String) If set, monitoring with Graphite will be enabled. Expects the host and port where the Graphite metrics should be sent to (host:port).
-            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
             image_url: (String)
             instance_id: (String) ID of the LogMe instance.
             ism_deletion_after: (String) Combination of an integer and a timerange when an index will be considered "old" and can be deleted. Possible values for the timerange are s, m, h and d.
@@ -1806,6 +1964,7 @@ resources:
             plan_id: (String) The selected plan ID.
             plan_name: (String) The selected plan name.
             project_id: (String) STACKIT project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
             sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
             syslog: (List of String) List of syslog servers to send logs to.
             version: (String) The service version.
@@ -1966,12 +2125,13 @@ resources:
             credential_id: (String) The credential's ID.
             host: (String)
             hosts: (List of String)
-            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,credential_id".
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,instance_id,credential_id".
             instance_id: (String) ID of the MariaDB instance.
             name: (String)
             password: (String, Sensitive)
             port: (Number)
             project_id: (String) STACKIT Project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
             rotate_when_changed: (Map of String) A map of arbitrary key/value pairs that will force recreation of the resource when they change, enabling resource rotation based on external conditions such as a rotating timestamp. Changing this forces a new resource to be created.
             uri: (String, Sensitive)
             username: (String)
@@ -2000,7 +2160,7 @@ resources:
             dashboard_url: (String)
             enable_monitoring: (Boolean) Enable monitoring.
             graphite: (String) Graphite server URL (host and port). If set, monitoring with Graphite will be enabled.
-            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
             image_url: (String)
             instance_id: (String) ID of the MariaDB instance.
             max_disk_threshold: (Number) The maximum disk threshold in MB. If the disk usage exceeds this threshold, the instance will be stopped.
@@ -2012,9 +2172,94 @@ resources:
             plan_id: (String) The selected plan ID.
             plan_name: (String) The selected plan name.
             project_id: (String) STACKIT project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
             sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
             syslog: (List of String) List of syslog servers to send logs to.
             version: (String) The service version.
+        importStatements: []
+    stackit_modelexperiments_instance:
+        subCategory: ""
+        description: Manages a STACKIT AI Model Experiments instance.
+        name: stackit_modelexperiments_instance
+        title: stackit_modelexperiments_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "deleted_experiment_retention": "30d",
+                  "description": "Example description",
+                  "labels": {
+                    "label": "ExampleLabel"
+                  },
+                  "name": "Example name",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "region": "eu01"
+                }
+        argumentDocs:
+            bucket_name: (String) The object storage bucket name of the AI Model Experiments instance.
+            deleted_experiment_retention: (String) The deleted experiment retention time of the AI Model Experiments instance.
+            description: (String) The description is a longer text chosen by the user to provide more context for the resource.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,instance_id".
+            instance_id: (String) The AI Model Experiments instance ID.
+            labels: (Map of String) A map of arbitrary key/value pairs that can be attached to the resource
+            name: (String) The display name is a short name chosen by the user to identify the resource.
+            project_id: (String) STACKIT Project ID to which the resource is associated.
+            region: (String) The STACKIT region name the resource is located in. If not defined, the provider region is used.
+            url: (String) The Dashboard URL of the AI Model Experiments instance.
+        importStatements: []
+    stackit_modelexperiments_token:
+        subCategory: ""
+        description: Manages a STACKIT AI Model Experiments instance tokens.
+        name: stackit_modelexperiments_token
+        title: stackit_modelexperiments_token Resource - stackit
+        examples:
+            - name: token
+              manifest: |-
+                {
+                  "description": "Example token description",
+                  "instance_id": "${stackit_modelexperiments_instance.example.instance_id}",
+                  "labels": {
+                    "label": "ExampleLlabel"
+                  },
+                  "name": "Example token nane",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "region": "eu01",
+                  "rotate_when_changed": {
+                    "rotation": "${time_rotating.rotate.id}"
+                  },
+                  "ttl_duration": "80d"
+                }
+              references:
+                instance_id: stackit_modelexperiments_instance.example.instance_id
+              dependencies:
+                stackit_modelexperiments_instance.example: |-
+                    {
+                      "deleted_experiment_retention": "30d",
+                      "description": "Example description",
+                      "labels": {
+                        "label": "ExampleLabel"
+                      },
+                      "name": "Example name",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "region": "eu01"
+                    }
+                time_rotating.rotate: |-
+                    {
+                      "rotation_days": 80
+                    }
+        argumentDocs:
+            description: (String) The description is a longer text chosen by the user to provide more context for the resource.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,token_id".
+            instance_id: (String) The AI Model Experiments instance ID.
+            labels: (Map of String) A map of arbitrary key/value pairs that can be attached to the resource
+            name: (String) The display name is a short name chosen by the user to identify the resource.
+            project_id: (String) STACKIT Project ID to which the resource is associated.
+            region: (String) The STACKIT region name the resource is located in. If not defined, the provider region is used.
+            rotate_when_changed: (Map of String) A map of arbitrary key/value pairs that will force recreation of the resource when they change, enabling resource rotation based on external conditions such as a rotating timestamp. Changing this forces a new resource to be created.
+            token: (String, Sensitive) The content of the AI Model Experiments instance token.
+            token_id: (String) The AI Model Experiments instance token ID.
+            ttl_duration: (String) The TTL duration of the AI Model Experiments instance token. E.g. 5h30m40s,5h,5h30m,30m,30s
+            valid_until: (String) The time until the AI Model Experiments instance token is valid.
         importStatements: []
     stackit_modelserving_token:
         subCategory: ""
@@ -2164,7 +2409,7 @@ resources:
         importStatements: []
     stackit_network:
         subCategory: ""
-        description: Network resource schema. Must have a region specified in the provider configuration. ~> Behavior of not configured ipv4_nameservers has changed. When ipv4_nameservers is not set, it will be set to the network area's default_nameservers. To prevent any nameserver configuration, the ipv4_nameservers attribute should be explicitly set to an empty list []. In cases where ipv4_nameservers are defined within the resource, the existing behavior will remain unchanged.
+        description: Network resource schema. Must have a region specified in the provider configuration.
         name: stackit_network
         title: stackit_network Resource - stackit
         examples:
@@ -2200,6 +2445,24 @@ resources:
                   "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
                   "routed": false
                 }
+            - name: example_vpc_network
+              manifest: |-
+                {
+                  "ipv4_gateway": "10.1.2.3",
+                  "ipv4_nameservers": [
+                    "1.2.3.4",
+                    "5.6.7.8"
+                  ],
+                  "ipv4_prefix": "10.1.2.0/24",
+                  "ipv4_vpc_network_range_id": "yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy",
+                  "labels": {
+                    "key": "value"
+                  },
+                  "name": "example-vpc-network",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "routed": false,
+                  "vpc_id": "yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"
+                }
         argumentDocs:
             dhcp: (Boolean) If the network has DHCP enabled. Default value is true.
             id: (String) Terraform's internal resource ID. It is structured as "project_id,region,network_id".
@@ -2208,11 +2471,13 @@ resources:
             ipv4_prefix: (String) The IPv4 prefix of the network (CIDR).
             ipv4_prefix_length: (Number) The IPv4 prefix length of the network.
             ipv4_prefixes: (List of String) The IPv4 prefixes of the network.
+            ipv4_vpc_network_range_id: (String) The IPv4 VPC network range ID.
             ipv6_gateway: (String) The IPv6 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
             ipv6_nameservers: (List of String) The IPv6 nameservers of the network.
             ipv6_prefix: (String) The IPv6 prefix of the network (CIDR).
             ipv6_prefix_length: (Number) The IPv6 prefix length of the network.
             ipv6_prefixes: (List of String) The IPv6 prefixes of the network.
+            ipv6_vpc_network_range_id: (String) The IPv6 VPC network range ID.
             labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
             name: (String) The name of the network.
             network_id: (String) The network ID.
@@ -2223,6 +2488,7 @@ resources:
             region: (String) The resource region. If not defined, the provider region is used.
             routed: (Boolean) If set to true, the network is routed and therefore accessible from other networks.
             routing_table_id: (String) The ID of the routing table associated with the network.
+            vpc_id: (String) The ID of the VPC the network is associated with.
         importStatements: []
     stackit_network_area:
         subCategory: ""
@@ -2281,24 +2547,15 @@ resources:
                         "transfer_network": "192.168.1.0/24"
                       },
                       "network_area_id": "${stackit_network_area.example.network_area_id}",
-                      "organization_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                      "region": "eu01"
+                      "organization_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
                     }
         argumentDocs:
-            default_nameservers: (List of String, Deprecated) List of DNS Servers/Nameservers for configuration of network area for region eu01.
-            default_prefix_length: (Number, Deprecated) The default prefix length for networks in the network area for region eu01.
             id: (String) Terraform's internal resource ID. It is structured as "organization_id,network_area_id".
             labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
-            max_prefix_length: (Number, Deprecated) The maximal prefix length for networks in the network area for region eu01.
-            min_prefix_length: (Number, Deprecated) The minimal prefix length for networks in the network area for region eu01.
             name: (String) The name of the network area.
             network_area_id: (String) The network area ID.
-            network_range_id: (String, Deprecated)
-            network_ranges: (Attributes List, Deprecated) List of Network ranges for configuration of network area for region eu01. (see below for nested schema)
             organization_id: (String) STACKIT organization ID to which the network area is associated.
-            prefix: (String, Deprecated) Classless Inter-Domain Routing (CIDR).
             project_count: (Number) The amount of projects currently referencing this area.
-            transfer_network: (String, Deprecated) Classless Inter-Domain Routing (CIDR) for configuration of network area for region eu01.
         importStatements: []
     stackit_network_area_region:
         subCategory: ""
@@ -2428,7 +2685,7 @@ resources:
         importStatements: []
     stackit_objectstorage_bucket:
         subCategory: ""
-        description: ObjectStorage bucket resource schema. Must have a region specified in the provider configuration. If you are creating credentialsgroup and bucket resources simultaneously, please include the depends_on field so that they are created sequentially. This prevents errors from concurrent calls to the service enablement that is done in the background. ~> This resource cannot be destroyed if the bucket contains objects. Please ensure the bucket is empty before attempting to destroy it.
+        description: ObjectStorage bucket resource schema. Must have a region specified in the provider configuration. ~> This resource cannot be destroyed if the bucket contains objects. Please ensure the bucket is empty before attempting to destroy it.
         name: stackit_objectstorage_bucket
         title: stackit_objectstorage_bucket Resource - stackit
         examples:
@@ -2531,7 +2788,7 @@ resources:
         importStatements: []
     stackit_objectstorage_credentials_group:
         subCategory: ""
-        description: ObjectStorage credentials group resource schema. Must have a region specified in the provider configuration. If you are creating credentialsgroup and bucket resources simultaneously, please include the depends_on field so that they are created sequentially. This prevents errors from concurrent calls to the service enablement that is done in the background.
+        description: ObjectStorage credentials group resource schema. Must have a region specified in the provider configuration.
         name: stackit_objectstorage_credentials_group
         title: stackit_objectstorage_credentials_group Resource - stackit
         examples:
@@ -2589,7 +2846,7 @@ resources:
         importStatements: []
     stackit_observability_alertgroup:
         subCategory: ""
-        description: Observability alert group resource schema. Used to create alerts based on metrics (Thanos). Must have a region specified in the provider configuration.
+        description: Observability alert group resource schema. Used to create alerts based on metrics (Thanos). Must have a region specified in the provider configuration. This service is only available when the provider is configured with default_region = "eu01".
         name: stackit_observability_alertgroup
         title: stackit_observability_alertgroup Resource - stackit
         examples:
@@ -2638,7 +2895,7 @@ resources:
         importStatements: []
     stackit_observability_credential:
         subCategory: ""
-        description: Observability credential resource schema. Must have a region specified in the provider configuration.
+        description: Observability credential resource schema. Must have a region specified in the provider configuration. This service is only available when the provider is configured with default_region = "eu01".
         name: stackit_observability_credential
         title: stackit_observability_credential Resource - stackit
         examples:
@@ -2680,7 +2937,7 @@ resources:
         importStatements: []
     stackit_observability_instance:
         subCategory: ""
-        description: Observability instance resource schema. Must have a region specified in the provider configuration.
+        description: Observability instance resource schema. Must have a region specified in the provider configuration. This service is only available when the provider is configured with default_region = "eu01".
         name: stackit_observability_instance
         title: stackit_observability_instance Resource - stackit
         examples:
@@ -2776,7 +3033,7 @@ resources:
         importStatements: []
     stackit_observability_logalertgroup:
         subCategory: ""
-        description: Observability log alert group resource schema. Used to create alerts based on logs (Loki). Must have a region specified in the provider configuration.
+        description: Observability log alert group resource schema. Used to create alerts based on logs (Loki). Must have a region specified in the provider configuration. This service is only available when the provider is configured with default_region = "eu01".
         name: stackit_observability_logalertgroup
         title: stackit_observability_logalertgroup Resource - stackit
         examples:
@@ -2829,7 +3086,7 @@ resources:
         importStatements: []
     stackit_observability_scrapeconfig:
         subCategory: ""
-        description: Observability scrape config resource schema. Must have a region specified in the provider configuration.
+        description: Observability scrape config resource schema. Must have a region specified in the provider configuration. This service is only available when the provider is configured with default_region = "eu01".
         name: stackit_observability_scrapeconfig
         title: stackit_observability_scrapeconfig Resource - stackit
         examples:
@@ -2909,11 +3166,12 @@ resources:
             credential_id: (String) The credential's ID.
             host: (String)
             hosts: (List of String)
-            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,credential_id".
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,instance_id,credential_id".
             instance_id: (String) ID of the OpenSearch instance.
             password: (String, Sensitive)
             port: (Number)
             project_id: (String) STACKIT Project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
             rotate_when_changed: (Map of String) A map of arbitrary key/value pairs that will force recreation of the resource when they change, enabling resource rotation based on external conditions such as a rotating timestamp. Changing this forces a new resource to be created.
             scheme: (String)
             uri: (String, Sensitive)
@@ -2943,7 +3201,7 @@ resources:
             dashboard_url: (String)
             enable_monitoring: (Boolean) Enable monitoring.
             graphite: (String) If set, monitoring with Graphite will be enabled. Expects the host and port where the Graphite metrics should be sent to (host:port).
-            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
             image_url: (String)
             instance_id: (String) ID of the OpenSearch instance.
             java_garbage_collector: (String) The garbage collector to use for OpenSearch.
@@ -2959,6 +3217,7 @@ resources:
             plan_name: (String) The selected plan name.
             plugins: (List of String) List of plugins to install. Must be a supported plugin name. The plugins repository-s3 and repository-azure are enabled by default and cannot be disabled.
             project_id: (String) STACKIT project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
             sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
             syslog: (List of String) List of syslog servers to send logs to.
             tls_ciphers: (List of String) List of TLS ciphers to use.
@@ -2997,41 +3256,56 @@ resources:
             - name: example
               manifest: |-
                 {
-                  "acl": [
-                    "XXX.XXX.XXX.X/XX",
-                    "XX.XXX.XX.X/XX"
-                  ],
-                  "backup_schedule": "00 00 * * *",
-                  "flavor": {
-                    "cpu": 2,
-                    "ram": 4
-                  },
+                  "backup_schedule": "0 0 * * *",
+                  "flavor_id": "4.8-replica",
                   "name": "example-instance",
+                  "network": {
+                    "acl": [
+                      "XXX.XXX.XXX.X/XX",
+                      "XX.XXX.XX.X/XX"
+                    ]
+                  },
                   "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                  "replicas": 3,
+                  "retention_days": 32,
                   "storage": {
                     "class": "premium-perf2-stackit",
                     "size": 5
                   },
-                  "version": 14
+                  "version": "17"
                 }
         argumentDocs:
-            acl: (List of String) The Access Control List (ACL) for the PostgresFlex instance.
+            access_scope: '(String) The network access scope of the instance. This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected. Possible values are: PUBLIC, SNA.'
+            acl: (List of String, Deprecated) The Access Control List (ACL) for the PostgresFlex instance.
             backup_schedule: '(String) The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: ''0 2 * * *''.'
             class: '(String) The storage class. You can list available storage classes using the STACKIT CLI:'
+            connection_info: (Attributes) The connection info for the PostgresFlex instance. (see below for nested schema)
             cpu: (Number)
             description: (String)
-            flavor: (Attributes) (see below for nested schema)
+            encryption: (Attributes) (see below for nested schema)
+            flavor: (Attributes, Deprecated) (see below for nested schema)
+            flavor_id: (String) The flavor ID of the PostgreSQL Flex instance. Can only be set when flavor and replicas are not set. You can list available flavors using the datasource stackit_postgresflex_flavors
+            host: (String) The host of the instance.
             id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
+            instance_address: (String)
             instance_id: (String) ID of the PostgresFlex instance.
+            kek_key_id: (String) The ID of the Key within the STACKIT-KMS to use for the encryption.
+            kek_key_version: (String) Version of the key within the STACKIT-KMS to use for the encryption.
+            kek_keyring_id: (String) The ID of the keyring where the key is located within the STACKTI-KMS.
             name: (String) Instance name.
+            network: (Attributes) The network configuration of the instance. Will be required after February 2027. Set a value to prevent breaking changes. (see below for nested schema)
+            node_type: (String)
+            port: (Number) The port of the instance.
             project_id: (String) STACKIT project ID to which the instance is associated.
             ram: (Number)
             region: (String) The resource region. If not defined, the provider region is used.
-            replicas: (Number) How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
+            replicas: (Number, Deprecated) How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication. Can only be set together with flavor
+            retention_days: (Number) How long backups are retained. The value can only be between 32 and 90 days. Will be required after February 2027. Set a value to prevent breaking changes.
+            router_address: (String)
+            service_account: (String) Service-Account linked to the Key within the STACKIT-KMS.
             size: (Number)
             storage: (Attributes) (see below for nested schema)
             version: (String)
+            write: (Attributes) The DNS name and port in the instance overview. (see below for nested schema)
         importStatements: []
     stackit_postgresflex_user:
         subCategory: ""
@@ -3073,16 +3347,16 @@ resources:
                       "rotation_days": 80
                     }
         argumentDocs:
-            host: (String)
+            host: (String, Deprecated)
             id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id,user_id".
             instance_id: (String) ID of the PostgresFlex instance.
             password: (String, Sensitive)
-            port: (Number)
+            port: (Number, Deprecated)
             project_id: (String) STACKIT project ID to which the instance is associated.
             region: (String) The resource region. If not defined, the provider region is used.
             roles: (Set of String) Database access levels for the user.
             rotate_when_changed: (Map of String) A map of arbitrary key/value pairs that will force recreation of the resource when they change, enabling resource rotation based on external conditions such as a rotating timestamp. Changing this forces a new resource to be created.
-            uri: (String, Sensitive)
+            uri: (String, Sensitive, Deprecated)
             user_id: (String) User ID.
             username: (String)
         importStatements: []
@@ -3195,14 +3469,13 @@ resources:
                     "enable_monitoring": false,
                     "plugins": [
                       "rabbitmq_consistent_hash_exchange",
-                      "rabbitmq_federation",
-                      "rabbitmq_tracing"
+                      "rabbitmq_federation"
                     ],
                     "sgw_acl": "193.148.160.0/19,45.129.40.0/21,45.135.244.0/22"
                   },
                   "plan_name": "stackit-rabbitmq-1.2.10-replica",
                   "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                  "version": "3.13"
+                  "version": "4.1"
                 }
         argumentDocs:
             cf_guid: (String)
@@ -3235,7 +3508,7 @@ resources:
         importStatements: []
     stackit_redis_credential:
         subCategory: ""
-        description: Redis credential resource schema. Must have a region specified in the provider configuration.
+        description: Redis credential resource schema. Must have a region specified in the provider configuration. !> The stackit_redis_credential resource is deprecated and will be removed after August 2027, use stackit_valkey_credential (Key Value Store) instead. For more information on how to migrate, see the migration guide https://docs.stackit.cloud/products/databases/key-value-store/tutorials/migrate-data-to-a-new-instance/.
         name: stackit_redis_credential
         title: stackit_redis_credential Resource - stackit
         examples:
@@ -3281,7 +3554,7 @@ resources:
         importStatements: []
     stackit_redis_instance:
         subCategory: ""
-        description: Redis instance resource schema. Must have a region specified in the provider configuration.
+        description: Redis instance resource schema. Must have a region specified in the provider configuration. !> The stackit_redis_instance resource is deprecated and will be removed after August 2027, use stackit_valkey_instance (Key Value Store) instead. For more information on how to migrate, see the migration guide https://docs.stackit.cloud/products/databases/key-value-store/tutorials/migrate-data-to-a-new-instance/.
         name: stackit_redis_instance
         title: stackit_redis_instance Resource - stackit
         examples:
@@ -3529,7 +3802,7 @@ resources:
         importStatements: []
     stackit_secretsmanager_instance:
         subCategory: ""
-        description: Secrets Manager instance resource schema. Must have a region specified in the provider configuration.
+        description: Secrets Manager instance resource schema. Must have a region specified in the provider configuration. This service is only available when the provider is configured with default_region = "eu01".
         name: stackit_secretsmanager_instance
         title: stackit_secretsmanager_instance Resource - stackit
         examples:
@@ -3597,7 +3870,7 @@ resources:
         importStatements: []
     stackit_secretsmanager_user:
         subCategory: ""
-        description: Secrets Manager user resource schema. Must have a region specified in the provider configuration.
+        description: Secrets Manager user resource schema. Must have a region specified in the provider configuration. This service is only available when the provider is configured with default_region = "eu01".
         name: stackit_secretsmanager_user
         title: stackit_secretsmanager_user Resource - stackit
         examples:
@@ -4241,7 +4514,7 @@ resources:
         importStatements: []
     stackit_sfs_export_policy:
         subCategory: ""
-        description: SFS export policy resource schema. Must have a region specified in the provider configuration. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+        description: SFS export policy resource schema. Must have a region specified in the provider configuration.
         name: stackit_sfs_export_policy
         title: stackit_sfs_export_policy Resource - stackit
         examples:
@@ -4297,7 +4570,7 @@ resources:
         importStatements: []
     stackit_sfs_resource_pool:
         subCategory: ""
-        description: Resource-pool resource schema. Must have a region specified in the provider configuration. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+        description: Resource-pool resource schema. Must have a region specified in the provider configuration.
         name: stackit_sfs_resource_pool
         title: stackit_sfs_resource_pool Resource - stackit
         examples:
@@ -4320,21 +4593,26 @@ resources:
                 }
         argumentDocs:
             availability_zone: (String) Availability zone.
+            create: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+            delete: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
             id: (String) Terraform's internal resource ID. It is structured as "project_id,region,resource_pool_id".
             ip_acl: (List of String) List of IPs that can mount the resource pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP).
             labels: (Map of String) Labels are key-value string pairs which can be attached to the resource.
             name: (String) Name of the resource pool.
             performance_class: (String) Name of the performance class.
             project_id: (String) STACKIT project ID to which the resource pool is associated.
+            read: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
             region: (String) The resource region. If not defined, the provider region is used.
             resource_pool_id: (String) Resource pool ID
             size_gigabytes: '(Number) Size of the resource pool (unit: gigabytes)'
             snapshot_policy: (Attributes) Name of the snapshot policy. (see below for nested schema)
             snapshots_are_visible: '(Boolean) If set to true, snapshots are visible and accessible to users. (default: false)'
+            timeouts: (Attributes) (see below for nested schema)
+            update: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
         importStatements: []
     stackit_sfs_share:
         subCategory: ""
-        description: SFS Share schema. Must have a region specified in the provider configuration. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+        description: SFS Share schema. Must have a region specified in the provider configuration.
         name: stackit_sfs_share
         title: stackit_sfs_share Resource - stackit
         examples:
@@ -4378,6 +4656,9 @@ resources:
             - name: example
               manifest: |-
                 {
+                  "audit": {
+                    "enabled": true
+                  },
                   "kubernetes_version_min": "x.x",
                   "name": "example",
                   "network": {
@@ -4404,12 +4685,14 @@ resources:
                 }
         argumentDocs:
             access: (Attributes) Configure access to the cluster (see below for nested schema)
-            access_scope: '(String) Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: PUBLIC, SNA. The field is immutable!'
+            access_scope: '(String) Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area. This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected.Possible values are: PUBLIC, SNA. The field is immutable!'
             acl: (Attributes) Cluster access control configuration. (see below for nested schema)
             allow_system_components: (Boolean) Allow system components to run on this node pool.
             allowed_cidrs: (List of String) Specify a list of CIDRs to whitelist.
+            application_load_balancer: (Attributes) Application Load Balancer extension. (see below for nested schema)
             argus: (Attributes, Deprecated) A single argus block as defined below. This field is deprecated and will be removed 06 January 2026. (see below for nested schema)
             argus_instance_id: (String) Argus instance ID to choose which Argus instance is used. Required when enabled is set to true.
+            audit: (Attributes) Cluster audit log forwarding configuration. (see below for nested schema)
             availability_zones: (List of String) Specify a list of availability zones. E.g. eu01-m
             control_plane: (Attributes) Control plane for the cluster. (see below for nested schema)
             cri: (String) Specifies the container runtime. Defaults to containerd
@@ -4421,6 +4704,7 @@ resources:
             enabled: (Boolean) Enable IDP integration for the cluster.
             end: (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
             extensions: (Attributes) A single extensions block as defined below. (see below for nested schema)
+            gateway_api: (Boolean) Enables Gateway API support for ExternalDNS. The CRDs must be installed by the user. Once installed, ExternalDNS will be configured at the next cluster reconcile.
             hibernations: (Attributes List) One or more hibernation block as defined below. (see below for nested schema)
             id: (String) Terraform's internal resource ID. It is structured as "project_id,region,name".
             idp: (Attributes) Configure IDP (see below for nested schema)
@@ -4486,6 +4770,38 @@ resources:
             refresh_before: (Number) Number of seconds before expiration to trigger refresh of the kubeconfig at. Only used if refresh is set to true.
             region: (String) The resource region. If not defined, the provider region is used.
         importStatements: []
+    stackit_sqlserverflex_database:
+        subCategory: ""
+        description: SQLServer Flex database resource schema.
+        name: stackit_sqlserverflex_database
+        title: stackit_sqlserverflex_database Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "collation": "SQL_Latin1_General_CP1_CI_AS",
+                  "compatibility": 160,
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "name": "example-database",
+                  "owner": "example-user",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            collation: (String) The collation of the database.
+            compatibility: (Number) Compatibility level of the database.
+            create: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+            database_id: (Number) The id of the database.
+            delete: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+            id: (String) Terraform internal ID, structured as "project_id,region,instance_id,name"
+            instance_id: (String) ID of the SQLServer Flex instance.
+            name: (String) Name of the database.
+            owner: (String) The owner of the database.
+            project_id: (String) STACKIT project ID.
+            read: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
+            region: (String) The resource region. If not defined, the provider region is used.
+            timeouts: (Attributes) (see below for nested schema)
+            update: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+        importStatements: []
     stackit_sqlserverflex_instance:
         subCategory: ""
         description: SQLServer Flex instance resource schema. Must have a region specified in the provider configuration.
@@ -4495,32 +4811,40 @@ resources:
             - name: example
               manifest: |-
                 {
-                  "acl": [
-                    "XXX.XXX.XXX.X/XX",
-                    "XX.XXX.XX.X/XX"
-                  ],
-                  "backup_schedule": "00 00 * * *",
+                  "backup_schedule": "0 0 * * *",
                   "flavor_id": "4.16-Single",
                   "name": "example-instance",
+                  "network": {
+                    "acl": [
+                      "XXX.XXX.XXX.X/XX",
+                      "XX.XXX.XX.X/XX"
+                    ]
+                  },
                   "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "retention_days": 32,
                   "storage": {
                     "class": "premium-perf2-stackit",
                     "size": 5
                   },
-                  "version": 2022
+                  "version": "2022"
                 }
         argumentDocs:
             access_scope: '(String) The network access scope of the instance. This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected. Possible values are: PUBLIC, SNA.'
             acl: (List of String, Deprecated) The Access Control List (ACL) for the SQLServer Flex instance.
             backup_schedule: (String) The backup schedule. Should follow the cron scheduling system format (e.g. "0 0 * * *") Will be required in the future. Set a value to prevent breaking changes.
-            class: '(String) The storage class. You can list available storage classes using the STACKIT CLI:'
+            class: (String) The storage class. You can list available storage classes for a the according flavors using the datasource stackit_sqlserverflex_flavors. Will be required in the future. Set a value to prevent breaking changes.
             cpu: (Number)
             description: (String)
             edition: (String) Edition of the MSSQL server instance.
-            flavor: (Attributes) (see below for nested schema)
-            flavor_id: (String) The flavor ID of the SQLServer Flex instance.
+            encryption: (Attributes) Parameter to define which key to use for storage encryption. (see below for nested schema)
+            flavor: (Attributes, Deprecated) (see below for nested schema)
+            flavor_id: (String) The flavor ID of the SQLServer Flex instance. Can only be set when flavor and replicas are not set. You can list available flavors using the datasource stackit_sqlserverflex_flavors.
             id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
+            instance_address: (String) Address of this instance.
             instance_id: (String) ID of the SQLServer Flex instance.
+            kek_key_id: (String) UUID of the key within the STACKIT-KMS to use for the encryption.
+            kek_key_version: (String) Version of the key within the STACKIT-KMS to use for the encryption.
+            kek_keyring_id: (String) UUID of the keyring where the key is located within the STACKTI-KMS.
             name: (String) Instance name.
             network: (Attributes) The network configuration of the instance. Will be required in the future. Set a value to prevent breaking changes. (see below for nested schema)
             options: (Attributes, Deprecated) (see below for nested schema)
@@ -4529,6 +4853,9 @@ resources:
             region: (String) The resource region. If not defined, the provider region is used.
             replicas: (Number)
             retention_days: (Number) The days (30 to 90) for how long the backup files should be stored before cleaned up. Will be required in the future. Set a value to prevent breaking changes.
+            router_address: (String) Address of the router.
+            service_account: (String) Service-Account linked to the Key within the STACKIT-KMS.
+            size: (Number) The storage size in Gigabytes. Will be required in the future. Set a value to prevent breaking changes.
             storage: (Attributes) The object containing information about the storage size and class. Will be required in the future. Set a value to prevent breaking changes. (see below for nested schema)
             version: '(String) The sqlserver version used for the instance. Possible values are: 2022. Will be required in the future. Set a value to prevent breaking changes.'
         importStatements: []
@@ -4593,7 +4920,8 @@ resources:
             - name: link
               manifest: |-
                 {
-                  "access_token": "eyJxxx",
+                  "access_token_wo": "eyJxxx",
+                  "access_token_wo_version": 1,
                   "display_name": "telemetrylink-example",
                   "region": "eu01",
                   "resource_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -4612,15 +4940,18 @@ resources:
                   "telemetry_router_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
                 }
         argumentDocs:
-            access_token: (String, Sensitive) The access token of the Telemetry Router instance.
+            access_token: (String, Sensitive) The access token of the Telemetry Router instance. Write-only argument access_token_wo should be preferred.
+            access_token_wo: (String, Sensitive, Write-only) The access token of the Telemetry Router instance. Write-only - never stored in state and never returned by the API. To rotate the token, update this value AND increment access_token_wo_version. Changing this field alone will NOT trigger an update.
+            access_token_wo_version: (Number) User-managed rotation counter for access_token_wo. Must be incremented every time access_token_wo is changed. Terraform diffs this field to detect token rotations - changing access_token_wo alone will NOT trigger an update because it is write-only and never stored in state.
             create_time: (String) The time the Telemetry Link was created.
             description: (String) The description of the Telemetry Link resource.
             display_name: (String) The displayed name of the Telemetry Link resource.
+            enabled: (Boolean) Whether the Telemetry Link is enabled or not.
             id: (String) Terraform's internal resource identifier. It is structured as "resource_type, resource_id,region".
             region: (String) STACKIT region name the resource is located in. If not defined, the provider region is used.
             resource_id: (String) STACKIT project ID, folder ID, or organization ID associated with the Telemetry Link resource.
             resource_type: '(String) The resource type of the TelemetryLink resource, possible values: Possible values are: organization, folder, project.'
-            status: '(String) The status of the TelemetryLink, possible values: Possible values are: active, inactive, failed, reconciling, deleting.'
+            status: '(String, Deprecated) The status of the TelemetryLink, possible values: Possible values are: active, inactive, failed, reconciling, deleting.'
             telemetry_router_id: (String) The Telemetry Router ID.
         importStatements: []
     stackit_telemetryrouter_access_token:
@@ -4658,7 +4989,7 @@ resources:
             instance_id: (String) The TelemetryRouter instance ID associated with the access token
             project_id: (String) STACKIT project ID associated with the TelemetryRouter access token
             region: (String) STACKIT region name the resource is located in. If not defined, the provider region is used.
-            status: '(String) The status of the access token. Possible values are: active, expired, deleting.'
+            status: '(String, Deprecated) The status of the access token. Possible values are: active, expired, deleting.'
             ttl: (Number) The time-to-live (TTL) in days for the access token. If not set, token will not expire
         importStatements: []
     stackit_telemetryrouter_destination:
@@ -4772,7 +5103,7 @@ resources:
             region: (String) STACKIT region name the resource is located in. If not defined, the provider region is used.
             s3: (Attributes) S3 configuration (see below for nested schema)
             secret: (String, Sensitive) S3 access key secret
-            status: '(String) The status of the TelemetryRouter destination, possible values: Possible values are: reconciling, active, deleting.'
+            status: '(String, Deprecated) The status of the TelemetryRouter destination, possible values: Possible values are: reconciling, active, deleting.'
             uri: (String) OpenTelemetry destination URI
             username: (String) OpenTelemetry basic auth username
             values: (List of String) The TelemetryRouter destination's filter attribute values
@@ -4832,9 +5163,114 @@ resources:
             matcher: '(String) The TelemetryRouter global filter attribute matcher, possible values: Possible values are: =, !=.'
             project_id: (String) STACKIT project ID associated with the TelemetryRouter instance
             region: (String) STACKIT region name the resource is located in. If not defined, the provider region is used.
-            status: '(String) The status of the TelemetryRouter instance, possible values: Possible values are: reconciling, active, deleting.'
+            status: '(String, Deprecated) The status of the TelemetryRouter instance, possible values: Possible values are: reconciling, active, deleting.'
             uri: (String) The TelemetryRouter instance's URI
             values: (List of String) The TelemetryRouter global filter attributes
+        importStatements: []
+    stackit_valkey_credential:
+        subCategory: ""
+        description: Key Value Store(valkey) credential resource schema. Must have a region specified in the provider configuration.
+        name: stackit_valkey_credential
+        title: stackit_valkey_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+              dependencies:
+                time_rotating.rotate: |-
+                    {
+                      "rotation_days": 80
+                    }
+            - name: example_rotate
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rotate_when_changed": {
+                    "rotation": "${time_rotating.rotate.id}"
+                  }
+                }
+              dependencies:
+                time_rotating.rotate: |-
+                    {
+                      "rotation_days": 80
+                    }
+        argumentDocs:
+            credential_id: (String) The credential's ID.
+            host: (String)
+            hosts: (List of String)
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,instance_id,credential_id".
+            instance_id: (String) ID of the Valkey instance.
+            load_balanced_host: (String)
+            password: (String, Sensitive)
+            port: (Number)
+            project_id: (String) STACKIT Project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            rotate_when_changed: (Map of String) A map of arbitrary key/value pairs that will force recreation of the resource when they change, enabling resource rotation based on external conditions such as a rotating timestamp. Changing this forces a new resource to be created.
+            uri: (String, Sensitive) Connection URI.
+            username: (String)
+        importStatements: []
+    stackit_valkey_instance:
+        subCategory: ""
+        description: Key Value Store(valkey) instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_valkey_instance
+        title: stackit_valkey_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-instance",
+                  "parameters": {
+                    "down_after_milliseconds": 30000,
+                    "enable_monitoring": false,
+                    "sgw_acl": "193.148.160.0/19,45.129.40.0/21,45.135.244.0/22",
+                    "syslog": [
+                      "logs4.your-syslog-endpoint.com:54321"
+                    ]
+                  },
+                  "plan_name": "stackit-keyvalue-1.2.10-replica",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "version": "x"
+                }
+        argumentDocs:
+            cf_guid: (String)
+            cf_organization_guid: (String)
+            cf_space_guid: (String)
+            dashboard_url: (String)
+            down_after_milliseconds: (Number) The number of milliseconds after which the instance is considered down.
+            enable_monitoring: (Boolean) Enable monitoring.
+            failover_timeout: (Number) The failover timeout in milliseconds.
+            graphite: (String) Graphite server URL (host and port). If set, monitoring with Graphite will be enabled.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
+            image_url: (String)
+            instance_id: (String) ID of the Valkey instance.
+            lazyfree_lazy_eviction: (String) The lazy eviction enablement (yes or no).
+            lazyfree_lazy_expire: (String) The lazy expire enablement (yes or no).
+            lua_time_limit: (Number) The Lua time limit.
+            max_disk_threshold: (Number) The maximum disk threshold in MB. If the disk usage exceeds this threshold, the instance will be stopped.
+            maxclients: (Number) The maximum number of clients.
+            maxmemory_policy: (String) The policy to handle the maximum memory (volatile-lru, noeviction, etc).
+            maxmemory_samples: (Number) The maximum memory samples.
+            metrics_frequency: (Number) The frequency in seconds at which metrics are emitted.
+            metrics_prefix: (String) The prefix for the metrics. Could be useful when using Graphite monitoring to prefix the metrics with a certain value, like an API key.
+            min_replicas_max_lag: (Number) The minimum replicas maximum lag.
+            min_replicas_to_write: (Number) The amount of connected replicas that are required for the primary to accept write operations. It can be set to 0 to disable it.
+            monitoring_instance_id: (String) The ID of the STACKIT monitoring instance.
+            name: (String) Instance name.
+            notify_keyspace_events: (String) The notify keyspace events.
+            parameters: (Attributes) Configuration parameters. Please note that removing a previously configured field from your Terraform configuration won't replace its value in the API. To update a previously configured field, explicitly set a new value for it. (see below for nested schema)
+            plan_id: (String) The selected plan ID.
+            plan_name: (String) The selected plan name.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            repl_backlog_size: (String) The replication backlog size for the cluster.
+            sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
+            snapshot: (String) The snapshot configuration.
+            syslog: (List of String) List of syslog servers to send logs to.
+            version: (String) The service version.
         importStatements: []
     stackit_volume:
         subCategory: ""
@@ -4876,6 +5312,39 @@ resources:
             source: (Attributes) The source of the volume. It can be either a volume, an image, a snapshot or a backup. Either size or source must be provided (see below for nested schema)
             type: '(String) The type of the source. Possible values are: volume, image, snapshot, backup.'
             volume_id: (String) The volume ID.
+        importStatements: []
+    stackit_volume_automation:
+        subCategory: ""
+        description: Volume automation resource schema. Must have a region specified in the provider configuration. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+        name: stackit_volume_automation
+        title: stackit_volume_automation Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "description": "Creates daily volume snapshots and keeps the last 7.",
+                  "input": "${jsonencode({\n    kind                = \"VolumeRecoveryPointManagement\"\n    inheritVolumeLabels = false\n    recoveryPointLabels = {\n      \"exampleLabelKey1\" = \"exampleLabelValue1\"\n      \"exampleLabelKey2\" = \"exampleLabelValue2\"\n    }\n    snapshotRetentionPolicy = {\n      kind  = \"count\"\n      value = 2\n    }\n    volumeLabelSelector = \"myLabelkey1=myLabelValue,myLabelKey2=myOtherLabelValue\"\n  })}",
+                  "name": "example-volume-automation",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "template_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "triggers": {
+                    "schedule": {
+                      "rrule": "DTSTART;TZID=Europe/Sofia:20200803T023000 RRULE:FREQ=DAILY;INTERVAL=1"
+                    }
+                  }
+                }
+        argumentDocs:
+            automation_id: (String) ID of the volume automation.
+            description: (String) The volume automation description.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,automation_id".
+            input: (String) Configuration input for the volume automation. See API Docs for possible configuration options.
+            name: (String) The volume automation name.
+            project_id: (String) STACKIT Project ID to which the volume automation is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            rrule: (String) An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates.
+            schedule: (Attributes) Runs the automation on a recurring schedule. (see below for nested schema)
+            template_id: (String) ID of the automation template this volume automation is based on.
+            triggers: (Attributes) Triggers that determine when the automation runs. (see below for nested schema)
         importStatements: []
     stackit_vpc:
         subCategory: ""
@@ -5130,7 +5599,7 @@ resources:
             encryption_algorithms: '(List of String) Encryption algorithms for Phase 1. Possible values are: aes256, aes128gcm16, aes256gcm16.'
             gateway_id: (String) The UUID of the parent VPN gateway.
             id: (String) Terraform's internal resource identifier. Structured as "project_id,region,gateway_id,connection_id".
-            integrity_algorithms: '(List of String) Integrity algorithms for Phase 1. Possible values are: sha1, sha2_256, sha2_384.'
+            integrity_algorithms: '(List of String) Integrity algorithms for Phase 1. Possible values are: sha1, sha2_256, sha2_384, sha2_512.'
             labels: (Map of String) Map of custom labels.
             local_address: (String) Local tunnel interface IPv4 address.
             local_subnets: (List of String) List of local IPv4 CIDRs to route through this connection. Optional for route-based and BGP configurations (defaults to 0.0.0.0/0). Mandatory for policy-based.
@@ -5177,10 +5646,13 @@ resources:
             id: (String) Terraform's internal resource identifier. Structured as "project_id,region,gateway_id".
             labels: (Map of String) Map of custom labels (key-value string pairs).
             local_asn: (Number) Local ASN for BGP (private ASN range, 64512-4294967294).
+            network_config: (Attributes) Network configuration for the VPN gateway. (see below for nested schema)
             override_advertised_routes: (List of String) List of IPv4 CIDRs to advertise via BGP. If omitted, SNA network ranges are advertised.
             plan_id: (String) The service plan identifier (e.g. p500). For guidance on finding available plans, see List available service plans.
+            predefined_network_prefix: (String) The IPv4 network prefix (CIDR notation) allocated for the VPN gateway. Must have a prefix length of /28 or larger. Cannot be changed after the gateway is created.
             project_id: (String) STACKIT project ID associated with the VPN gateway.
             region: (String) STACKIT region name the resource is located in. If not defined, the provider region is used.
+            routing_table_id: (String) Custom routing table ID for the VPN gateway. If omitted, a default routing table is assigned.
             routing_type: '(String) Routing architecture. Possible values are: POLICY_BASED, ROUTE_BASED, BGP_ROUTE_BASED.'
             tunnel1: (String) Availability zone for tunnel 1.
             tunnel2: (String) Availability zone for tunnel 2.

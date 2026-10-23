@@ -1,0 +1,20 @@
+apiVersion: iaas.stackit.kubee.dev/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/networkinterface
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    allowedAddresses:
+    - 192.168.0.0/24
+    networkIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    securityGroupIds:
+    - xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

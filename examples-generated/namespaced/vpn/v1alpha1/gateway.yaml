@@ -1,0 +1,20 @@
+apiVersion: vpn.stackit.m.kubee.dev/v1alpha1
+kind: Gateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpn/v1alpha1/gateway
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    availabilityZones:
+      tunnel1: eu01-1
+      tunnel2: eu01-2
+    displayName: example-vpn-gateway
+    planId: p500
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    routingType: ROUTE_BASED

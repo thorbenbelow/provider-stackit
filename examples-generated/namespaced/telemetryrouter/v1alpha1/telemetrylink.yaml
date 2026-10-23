@@ -1,0 +1,22 @@
+apiVersion: telemetryrouter.stackit.m.kubee.dev/v1alpha1
+kind: TelemetryLink
+metadata:
+  annotations:
+    meta.upbound.io/example-id: telemetryrouter/v1alpha1/telemetrylink
+  labels:
+    testing.upbound.io/example-name: link
+  name: link
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accessTokenWoSecretRef:
+      key: example-key
+      name: example-secret
+    accessTokenWoVersion: 1
+    displayName: telemetrylink-example
+    region: eu01
+    resourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    resourceType: project
+    telemetryRouterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

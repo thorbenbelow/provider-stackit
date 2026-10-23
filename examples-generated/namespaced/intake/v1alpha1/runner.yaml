@@ -1,0 +1,21 @@
+apiVersion: intake.stackit.m.kubee.dev/v1alpha1
+kind: Runner
+metadata:
+  annotations:
+    meta.upbound.io/example-id: intake/v1alpha1/runner
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: An example runner for STACKIT Intake
+    labels:
+      env: development
+    maxMessageSizeKib: 1024
+    maxMessagesPerHour: 1000
+    name: example-runner
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01

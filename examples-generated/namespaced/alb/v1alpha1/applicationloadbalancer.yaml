@@ -1,0 +1,214 @@
+apiVersion: alb.stackit.m.kubee.dev/v1alpha1
+kind: ApplicationLoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/applicationloadbalancer
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    disableTargetSecurityGroupAssignment: false
+    labels:
+      ${(var.label_key)}: ${var.label_value}
+    listeners:
+    - http:
+        hosts:
+        - host: '*'
+          rules:
+          - cookiePersistence:
+              name: my-cookie
+              ttl: 60s
+            headers:
+            - exactMatch: my-header-value
+              name: my-header-key
+            path:
+              prefix: /path
+            queryParameters:
+            - exactMatch: my-query-value
+              name: my-query-key
+            targetPool: my-target-pool
+            webSocket: true
+      https:
+        certificateConfig:
+          certificateIds:
+          - ${stackit_alb_certificate.certificate.cert_id}
+      name: my-listener
+      port: 443
+      protocol: PROTOCOL_HTTPS
+      wafConfigName: my-waf-config
+    name: example-load-balancer
+    networks:
+    - networkId: ${stackit_network.network.network_id}
+      role: ROLE_LISTENERS_AND_TARGETS
+    options:
+      accessControl:
+        allowedSourceRanges:
+        - 123.123.123.123/24
+        - 12.12.12.12/24
+      ephemeralAddress: true
+      observability:
+        logs:
+          credentialsRef: ${stackit_loadbalancer_observability_credential.observability.credentials_ref}
+          pushUrl: https://logs.stackit<id>.argus.eu01.stackit.cloud/instances/<instance-id>/loki/api/v1/push
+        metrics:
+          credentialsRef: ${stackit_loadbalancer_observability_credential.observability.credentials_ref}
+          pushUrl: https://push.metrics.stackit<id>.argus.eu01.stackit.cloud/instances/<instance-id>/api/v1/receive
+      privateNetworkOnly: false
+    planId: p10
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01
+    targetPools:
+    - activeHealthCheck:
+        healthyThreshold: "5"
+        httpHealthChecks:
+          okStatus:
+          - "200"
+          - "201"
+          path: /healthy
+        interval: 0.500s
+        intervalJitter: 0.010s
+        timeout: 1s
+        unhealthyThreshold: "3"
+      name: my-target-pool
+      targetPort: 80
+      targets:
+      - displayName: my-target
+        ip: ${stackit_network_interface.nic.ipv4}
+      tlsConfig:
+        customCa: ${chomp(file("path/to/PEM_formated_CA"))}
+        enabled: true
+        skipCertificateValidation: false
+
+---
+
+apiVersion: alb.stackit.m.kubee.dev/v1alpha1
+kind: Certificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/applicationloadbalancer
+  labels:
+    testing.upbound.io/example-name: certificate
+  name: certificate
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-certificate
+    privateKeySecretRef:
+      key: attribute.private_key_pem
+      name: example-private-key
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    publicKey: ${tls_self_signed_cert.example.cert_pem}
+
+---
+
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: KeyPair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/applicationloadbalancer
+  labels:
+    testing.upbound.io/example-name: keypair
+  name: keypair
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-key-pair
+    publicKey: ${chomp(file("path/to/id_rsa.pub"))}
+
+---
+
+apiVersion: loadbalancer.stackit.m.kubee.dev/v1alpha1
+kind: ObservabilityCredential
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/applicationloadbalancer
+  labels:
+    testing.upbound.io/example-name: observability
+  name: observability
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: my-cred
+    password: password
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    username: username
+
+---
+
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/applicationloadbalancer
+  labels:
+    testing.upbound.io/example-name: network
+  name: network
+  namespace: crossplane-system
+spec:
+  forProvider:
+    ipv4Nameservers:
+    - 1.1.1.1
+    ipv4Prefix: 192.168.2.0/25
+    name: example-network
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    routed: true
+
+---
+
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/applicationloadbalancer
+  labels:
+    testing.upbound.io/example-name: nic
+  name: nic
+  namespace: crossplane-system
+spec:
+  forProvider:
+    networkIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/applicationloadbalancer
+  labels:
+    testing.upbound.io/example-name: server
+  name: server
+  namespace: crossplane-system
+spec:
+  forProvider:
+    availabilityZone: ${var.availability_zone}
+    bootVolume:
+      deleteOnTermination: true
+      size: 20
+      sourceId: ${var.image_id}
+      sourceType: image
+    keypairNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keypair
+    machineType: ${var.machine_type}
+    name: example-server
+    networkInterfaces:
+    - ${stackit_network_interface.nic.network_interface_id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

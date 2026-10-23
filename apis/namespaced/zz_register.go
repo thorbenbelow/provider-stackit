@@ -10,21 +10,83 @@ package namespaced
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/thorbenbelow/provider-stackit/apis/namespaced/authorization/v1alpha1"
+	v1alpha1 "github.com/thorbenbelow/provider-stackit/apis/namespaced/alb/v1alpha1"
+	v1alpha1authorization "github.com/thorbenbelow/provider-stackit/apis/namespaced/authorization/v1alpha1"
+	v1alpha1cdn "github.com/thorbenbelow/provider-stackit/apis/namespaced/cdn/v1alpha1"
+	v1alpha1dns "github.com/thorbenbelow/provider-stackit/apis/namespaced/dns/v1alpha1"
+	v1alpha1dremio "github.com/thorbenbelow/provider-stackit/apis/namespaced/dremio/v1alpha1"
+	v1alpha1edgecloud "github.com/thorbenbelow/provider-stackit/apis/namespaced/edgecloud/v1alpha1"
+	v1alpha1git "github.com/thorbenbelow/provider-stackit/apis/namespaced/git/v1alpha1"
+	v1alpha1iaas "github.com/thorbenbelow/provider-stackit/apis/namespaced/iaas/v1alpha1"
+	v1alpha1intake "github.com/thorbenbelow/provider-stackit/apis/namespaced/intake/v1alpha1"
+	v1alpha1kms "github.com/thorbenbelow/provider-stackit/apis/namespaced/kms/v1alpha1"
+	v1alpha1loadbalancer "github.com/thorbenbelow/provider-stackit/apis/namespaced/loadbalancer/v1alpha1"
+	v1alpha1logme "github.com/thorbenbelow/provider-stackit/apis/namespaced/logme/v1alpha1"
+	v1alpha1logs "github.com/thorbenbelow/provider-stackit/apis/namespaced/logs/v1alpha1"
+	v1alpha1mariadb "github.com/thorbenbelow/provider-stackit/apis/namespaced/mariadb/v1alpha1"
+	v1alpha1modelexperiments "github.com/thorbenbelow/provider-stackit/apis/namespaced/modelexperiments/v1alpha1"
+	v1alpha1modelserving "github.com/thorbenbelow/provider-stackit/apis/namespaced/modelserving/v1alpha1"
+	v1alpha1mongodbflex "github.com/thorbenbelow/provider-stackit/apis/namespaced/mongodbflex/v1alpha1"
+	v1alpha1objectstorage "github.com/thorbenbelow/provider-stackit/apis/namespaced/objectstorage/v1alpha1"
+	v1alpha1observability "github.com/thorbenbelow/provider-stackit/apis/namespaced/observability/v1alpha1"
+	v1alpha1opensearch "github.com/thorbenbelow/provider-stackit/apis/namespaced/opensearch/v1alpha1"
+	v1alpha1postgresflex "github.com/thorbenbelow/provider-stackit/apis/namespaced/postgresflex/v1alpha1"
+	v1alpha1rabbitmq "github.com/thorbenbelow/provider-stackit/apis/namespaced/rabbitmq/v1alpha1"
+	v1alpha1redis "github.com/thorbenbelow/provider-stackit/apis/namespaced/redis/v1alpha1"
 	v1alpha1resourcemanager "github.com/thorbenbelow/provider-stackit/apis/namespaced/resourcemanager/v1alpha1"
+	v1alpha1scf "github.com/thorbenbelow/provider-stackit/apis/namespaced/scf/v1alpha1"
+	v1alpha1secretsmanager "github.com/thorbenbelow/provider-stackit/apis/namespaced/secretsmanager/v1alpha1"
 	v1alpha1serviceaccount "github.com/thorbenbelow/provider-stackit/apis/namespaced/serviceaccount/v1alpha1"
+	v1alpha1sfs "github.com/thorbenbelow/provider-stackit/apis/namespaced/sfs/v1alpha1"
+	v1alpha1ske "github.com/thorbenbelow/provider-stackit/apis/namespaced/ske/v1alpha1"
+	v1alpha1sqlserverflex "github.com/thorbenbelow/provider-stackit/apis/namespaced/sqlserverflex/v1alpha1"
+	v1alpha1telemetryrouter "github.com/thorbenbelow/provider-stackit/apis/namespaced/telemetryrouter/v1alpha1"
 	v1alpha1namespaced "github.com/thorbenbelow/provider-stackit/apis/namespaced/v1alpha1"
 	v1beta1 "github.com/thorbenbelow/provider-stackit/apis/namespaced/v1beta1"
+	v1alpha1valkey "github.com/thorbenbelow/provider-stackit/apis/namespaced/valkey/v1alpha1"
+	v1alpha1vpc "github.com/thorbenbelow/provider-stackit/apis/namespaced/vpc/v1alpha1"
+	v1alpha1vpn "github.com/thorbenbelow/provider-stackit/apis/namespaced/vpn/v1alpha1"
 )
 
 func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1authorization.SchemeBuilder.AddToScheme,
+		v1alpha1cdn.SchemeBuilder.AddToScheme,
+		v1alpha1dns.SchemeBuilder.AddToScheme,
+		v1alpha1dremio.SchemeBuilder.AddToScheme,
+		v1alpha1edgecloud.SchemeBuilder.AddToScheme,
+		v1alpha1git.SchemeBuilder.AddToScheme,
+		v1alpha1iaas.SchemeBuilder.AddToScheme,
+		v1alpha1intake.SchemeBuilder.AddToScheme,
+		v1alpha1kms.SchemeBuilder.AddToScheme,
+		v1alpha1loadbalancer.SchemeBuilder.AddToScheme,
+		v1alpha1logme.SchemeBuilder.AddToScheme,
+		v1alpha1logs.SchemeBuilder.AddToScheme,
+		v1alpha1mariadb.SchemeBuilder.AddToScheme,
+		v1alpha1modelexperiments.SchemeBuilder.AddToScheme,
+		v1alpha1modelserving.SchemeBuilder.AddToScheme,
+		v1alpha1mongodbflex.SchemeBuilder.AddToScheme,
+		v1alpha1objectstorage.SchemeBuilder.AddToScheme,
+		v1alpha1observability.SchemeBuilder.AddToScheme,
+		v1alpha1opensearch.SchemeBuilder.AddToScheme,
+		v1alpha1postgresflex.SchemeBuilder.AddToScheme,
+		v1alpha1rabbitmq.SchemeBuilder.AddToScheme,
+		v1alpha1redis.SchemeBuilder.AddToScheme,
 		v1alpha1resourcemanager.SchemeBuilder.AddToScheme,
+		v1alpha1scf.SchemeBuilder.AddToScheme,
+		v1alpha1secretsmanager.SchemeBuilder.AddToScheme,
 		v1alpha1serviceaccount.SchemeBuilder.AddToScheme,
+		v1alpha1sfs.SchemeBuilder.AddToScheme,
+		v1alpha1ske.SchemeBuilder.AddToScheme,
+		v1alpha1sqlserverflex.SchemeBuilder.AddToScheme,
+		v1alpha1telemetryrouter.SchemeBuilder.AddToScheme,
 		v1alpha1namespaced.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1alpha1valkey.SchemeBuilder.AddToScheme,
+		v1alpha1vpc.SchemeBuilder.AddToScheme,
+		v1alpha1vpn.SchemeBuilder.AddToScheme,
 	)
 }
 

@@ -1,0 +1,21 @@
+apiVersion: sfs.stackit.kubee.dev/v1alpha1
+kind: ExportPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sfs/v1alpha1/exportpolicy
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    labels:
+      foo: bar
+    name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    rules:
+    - ipAcl:
+      - 172.16.0.0/24
+      - 172.16.0.250/32
+      order: 1

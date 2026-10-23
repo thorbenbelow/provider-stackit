@@ -1,0 +1,26 @@
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: RoutingTableRoute
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/routingtableroute
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    destination:
+      type: cidrv4
+      value: 192.168.178.0/24
+    labels:
+      key: value
+    networkAreaIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    nextHop:
+      type: ipv4
+      value: 192.168.178.1
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    routingTableIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

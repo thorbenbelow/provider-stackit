@@ -1,0 +1,26 @@
+apiVersion: postgresflex.stackit.m.kubee.dev/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: postgresflex/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    backupSchedule: 0 0 * * *
+    flavorId: 4.8-replica
+    name: example-instance
+    network:
+      acl:
+      - XXX.XXX.XXX.X/XX
+      - XX.XXX.XX.X/XX
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    retentionDays: 32
+    storage:
+      class: premium-perf2-stackit
+      size: 5
+    version: "17"

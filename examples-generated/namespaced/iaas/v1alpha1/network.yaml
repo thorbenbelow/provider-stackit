@@ -1,0 +1,15 @@
+apiVersion: iaas.stackit.m.kubee.dev/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iaas/v1alpha1/network
+  labels:
+    testing.upbound.io/example-name: example_with_name
+  name: example-with-name
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-with-name
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

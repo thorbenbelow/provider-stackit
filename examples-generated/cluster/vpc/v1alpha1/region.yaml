@@ -1,0 +1,17 @@
+apiVersion: vpc.stackit.kubee.dev/v1alpha1
+kind: Region
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/region
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: eu01
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

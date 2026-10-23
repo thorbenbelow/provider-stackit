@@ -19,7 +19,7 @@ type OrganizationRoleAssignmentInitParameters struct {
 	// Organization Resource to assign the role to.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
-	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+	// cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
 	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
@@ -37,7 +37,7 @@ type OrganizationRoleAssignmentObservation struct {
 	// Organization Resource to assign the role to.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
-	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+	// cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
 	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
@@ -53,7 +53,7 @@ type OrganizationRoleAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
-	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
+	// cli: stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles
 	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/{resourceType}/{resourceId}/roles`
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`

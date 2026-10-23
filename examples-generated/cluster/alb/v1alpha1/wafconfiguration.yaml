@@ -1,0 +1,65 @@
+apiVersion: alb.stackit.kubee.dev/v1alpha1
+kind: WAFConfiguration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/wafconfiguration
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    customRuleGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    labels:
+      key: value
+    managedRuleSetNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: example-waf-configuration
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: alb.stackit.kubee.dev/v1alpha1
+kind: WAFCustomRuleGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/wafconfiguration
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example-custom-rule-group
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    rules:
+    - behavior:
+        action: ACTION_DENY
+      conditions:
+      - operator:
+          type: OPERATOR_VALIDATE_UTF8_ENCODING
+        variable:
+          type: VARIABLE_REQUEST_HEADERS
+
+---
+
+apiVersion: alb.stackit.kubee.dev/v1alpha1
+kind: WAFManagedRuleSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/wafconfiguration
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example-managed-rule-set
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: TYPE_OWASP_CRS

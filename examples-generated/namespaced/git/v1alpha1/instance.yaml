@@ -1,0 +1,15 @@
+apiVersion: git.stackit.m.kubee.dev/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: git/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: git
+  name: git
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: git-example-instance
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
