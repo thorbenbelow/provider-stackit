@@ -46,7 +46,7 @@ stringData:
 Reference the Secret in a `ProviderConfig`:
 
 ```yaml
-apiVersion: stackit.crossplane.io/v1beta1
+apiVersion: stackit.kubee.dev/v1beta1
 kind: ProviderConfig
 metadata:
   name: default
