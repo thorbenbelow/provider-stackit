@@ -65,17 +65,17 @@ CROSSPLANE_VERSION = 2.2.1
 # ====================================================================================
 # Setup Images
 
-REGISTRY_ORGS ?= ghcr.io/crossplane-contrib
+REGISTRY_ORGS ?= ghcr.io/thorbenbelow
 IMAGES = $(PROJECT_NAME)
 -include build/makelib/imagelight.mk
 
 # ====================================================================================
 # Setup XPKG
 
-XPKG_REG_ORGS ?= xpkg.upbound.io/kubee ghcr.io/crossplane-contrib
+XPKG_REG_ORGS ?= xpkg.upbound.io/kubee ghcr.io/thorbenbelow
 # NOTE(hasheddan): skip promoting on xpkg.crossplane.io as channel tags are
 # inferred.
-XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/kubee ghcr.io/crossplane-contrib
+XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/kubee ghcr.io/thorbenbelow
 XPKGS = $(PROJECT_NAME)
 -include build/makelib/xpkg.mk
 
