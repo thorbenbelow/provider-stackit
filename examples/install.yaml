@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-stackit
 spec:
-  package: xpkg.crossplane.io/thorbenbelow/provider-stackit:v0.1.0
+  package: xpkg.upbound.io/kubee/provider-stackit:v0.1.1

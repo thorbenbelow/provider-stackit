@@ -36,8 +36,8 @@ make generate
 To build the package image and publish it to your container registry:
 
 ```console
-REGISTRY_ORGS="ghcr.io/<your-org>" \
-XPKG_REG_ORGS="ghcr.io/<your-org>" \
+REGISTRY_ORGS="xpkg.upbound.io/kubee" \
+XPKG_REG_ORGS="xpkg.upbound.io/kubee" \
 XPKG_REG_ORGS_NO_PROMOTE="" \
 make build.all publish BRANCH_NAME=main
 ```
@@ -54,7 +54,7 @@ kind: Provider
 metadata:
   name: provider-stackit
 spec:
-  package: ghcr.io/<your-org>/provider-stackit:<version>
+  package: xpkg.upbound.io/kubee/provider-stackit:<version>
 ```
 
 You can also run the provider locally against a cluster without packaging:

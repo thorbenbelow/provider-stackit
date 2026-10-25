@@ -17,6 +17,9 @@ env:
 jobs:
   detect-noop:
     runs-on: ubuntu-24.04
+    permissions:
+      actions: write
+      contents: read
     outputs:
       noop: ${{ steps.noop.outputs.should_skip }}
     steps:
@@ -195,9 +198,15 @@ jobs:
   local-deploy:
     runs-on: ubuntu-24.04
     needs: detect-noop
-    if: needs.detect-noop.outputs.noop != 'true'
+    if: needs.detect-noop.outputs.noop != 'true' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
 
     steps:
+      - name: Cleanup Disk
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
+        with:
+          large-packages: false
+          swap-storage: false
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -252,9 +261,15 @@ jobs:
       - check-diff
       - unit-tests
       - local-deploy
-    if: needs.detect-noop.outputs.noop != 'true'
+    if: needs.detect-noop.outputs.noop != 'true' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
 
     steps:
+      - name: Cleanup Disk
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
+        with:
+          large-packages: false
+          swap-storage: false
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4
         with:
