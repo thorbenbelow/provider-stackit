@@ -159,7 +159,7 @@
     {
       // We want a single PR for all minor and patch bumps of Github Actions
       "matchDepTypes": ["action"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "all non-major github action",
       "pinDigests": true
     },
